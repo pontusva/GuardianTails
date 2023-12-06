@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dbInitFunction from './models/index';
 import dotenv from 'dotenv';
-import { authRoutes, userAuthRoutes } from './routes/auth.routes';
+import { authRoutes } from './routes/auth.routes';
+import { userAuthRoutes } from './routes/user.routes';
 const app = express();
 dotenv.config();
 var corsOptions = {
