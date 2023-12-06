@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage.tsx';
 import { ChakraProvider } from '@chakra-ui/react';
 import LoginPage from './pages/LoginPage.tsx';
 import App from './App.tsx';
+import HomePageUser from './pages/AuthPages/UserPages/HomePageUser.tsx';
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: '<Login />',
+        element: <HomePageUser />,
       },
       { path: 'dashboard', element: '<Dashboard /> ' },
       {
