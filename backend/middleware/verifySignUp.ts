@@ -1,7 +1,10 @@
-import db from '../models/index';
+import dbInitFunction from '../models/index';
 import { Request, Response, NextFunction } from 'express';
-const ROLES = db.ROLES;
-const User = db.user;
+
+const db = dbInitFunction();
+
+const ROLES: any = db && db.ROLES;
+const User: any = db && db.user;
 
 const checkDuplicateUsernameOrEmail = (
   req: Request,
@@ -13,7 +16,7 @@ const checkDuplicateUsernameOrEmail = (
     where: {
       username: req.body.username,
     },
-  }).then(user => {
+  }).then((user: any) => {
     if (user) {
       res.status(400).send({
         message: 'Failed! Username is already in use!',
@@ -26,7 +29,7 @@ const checkDuplicateUsernameOrEmail = (
       where: {
         email: req.body.email,
       },
-    }).then(user => {
+    }).then((user: any) => {
       if (user) {
         res.status(400).send({
           message: 'Failed! Email is already in use!',
