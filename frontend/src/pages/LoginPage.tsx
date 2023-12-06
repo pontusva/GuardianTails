@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Cookies from 'js-cookie';
 import {
   FormErrorMessage,
   FormLabel,
@@ -7,6 +8,7 @@ import {
   Button,
   Stack,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 interface IFormInput {
   username: string;
@@ -14,6 +16,7 @@ interface IFormInput {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -36,9 +39,10 @@ export default function Login() {
       }),
     });
     const result = await respons.json();
+    const token = result.accessToken;
+    Cookies.set('token', token, { expires: 7, secure: false });
 
-    console.log(result);
-    console.log(errors);
+    navigate('/');
   };
 
   return (
