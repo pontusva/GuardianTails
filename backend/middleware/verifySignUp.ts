@@ -1,7 +1,10 @@
-import db from '../models/index';
+import dbInitFunction from '../models/index';
 import { Request, Response, NextFunction } from 'express';
-const ROLES = db.ROLES;
-const User = db.user;
+
+const db = dbInitFunction();
+
+const ROLES = db && db.ROLES;
+const User = db && db.user;
 
 const checkDuplicateUsernameOrEmail = (
   req: Request,
