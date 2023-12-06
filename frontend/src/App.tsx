@@ -1,9 +1,10 @@
+import Navigation from './navigation/MainNavigation/Navigation';
 import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <p>navbar</p>
+      <Navigation />
       <Outlet />
     </>
   );
