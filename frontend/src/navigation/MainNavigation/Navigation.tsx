@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import HamburgerMenu from '../../svgs/HamburgerMenu';
 import { useRef } from 'react';
 import {
@@ -10,11 +10,12 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
+  MenuItem,
+  Menu,
+  Divider,
   Input,
   Button,
 } from '@chakra-ui/react';
-
-import { UserCenter } from './MainComponents/UserNavigation';
 
 export default function Navigation() {
   const location = useLocation();
@@ -25,10 +26,9 @@ export default function Navigation() {
 
   return (
     <>
-      <div className="flex justify-between">
-        <UserCenter />
+      <div className="flex justify-end">
         <div>
-          <Button ref={btnRef} onClick={onOpen}>
+          <Button width={20} height={20} ref={btnRef} onClick={onOpen}>
             <HamburgerMenu />
           </Button>
           <Drawer
@@ -39,15 +39,36 @@ export default function Navigation() {
             <DrawerOverlay />
             <DrawerContent>
               <DrawerCloseButton />
-              <DrawerHeader>Create your account</DrawerHeader>
+              <DrawerHeader>Hello, User</DrawerHeader>
               <DrawerBody>
                 <Input placeholder="Type here..." />
+                <div className="mt-10">
+                  <p className="font-mono mb-5 text-center text-2xl">
+                    GuardianTails
+                  </p>
+                  <div className="mb-16">
+                    <Menu>
+                      <MenuItem>My searches</MenuItem>
+                      <MenuItem>Pet Alerts</MenuItem>
+                      <MenuItem>Community Searches</MenuItem>
+                      <MenuItem>Find a Lost Pet</MenuItem>
+                      <Divider />
+                      <Divider />
+                      <Divider />
+                      <Divider />
+                      <MenuItem>Profile</MenuItem>
+                    </Menu>
+                  </div>
+                </div>
+                <img src="/basicdragonfly.svg" />
               </DrawerBody>
               <DrawerFooter>
-                <Button variant="outline" mr={3} onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button colorScheme="blue">Save</Button>
+                <div className="flex justify-between w-full">
+                  <NavLink to="/login">faq</NavLink>
+                  <NavLink to="/login">about</NavLink>
+                  <NavLink to="/login">contact</NavLink>
+                  <NavLink to="/login">gdpr</NavLink>
+                </div>
               </DrawerFooter>
             </DrawerContent>
           </Drawer>
