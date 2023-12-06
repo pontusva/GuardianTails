@@ -1,0 +1,79 @@
+import { NavLink, useLocation } from 'react-router-dom';
+import HamburgerMenu from '../../svgs/HamburgerMenu';
+import { useRef } from 'react';
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  MenuItem,
+  Menu,
+  Divider,
+  Input,
+  Button,
+} from '@chakra-ui/react';
+
+export default function Navigation() {
+  const location = useLocation();
+  const dontShowNavigation = ['/login', '/register'];
+  if (dontShowNavigation.includes(location.pathname)) return null;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  return (
+    <>
+      <div className="flex justify-end">
+        <div>
+          <Button width={20} height={20} ref={btnRef} onClick={onOpen}>
+            <HamburgerMenu />
+          </Button>
+          <Drawer
+            isOpen={isOpen}
+            placement="right"
+            onClose={onClose}
+            finalFocusRef={btnRef}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>Hello, User</DrawerHeader>
+              <DrawerBody>
+                <Input placeholder="Type here..." />
+                <div className="mt-10">
+                  <p className="font-mono mb-5 text-center text-2xl">
+                    GuardianTails
+                  </p>
+                  <div className="mb-16">
+                    <Menu>
+                      <MenuItem>My searches</MenuItem>
+                      <MenuItem>Pet Alerts</MenuItem>
+                      <MenuItem>Community Searches</MenuItem>
+                      <MenuItem>Find a Lost Pet</MenuItem>
+                      <Divider />
+                      <Divider />
+                      <Divider />
+                      <Divider />
+                      <MenuItem>Profile</MenuItem>
+                    </Menu>
+                  </div>
+                </div>
+                <img src="/basicdragonfly.svg" />
+              </DrawerBody>
+              <DrawerFooter>
+                <div className="flex justify-between w-full">
+                  <NavLink to="/login">faq</NavLink>
+                  <NavLink to="/login">about</NavLink>
+                  <NavLink to="/login">contact</NavLink>
+                  <NavLink to="/login">gdpr</NavLink>
+                </div>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </div>
+      </div>
+    </>
+  );
+}
