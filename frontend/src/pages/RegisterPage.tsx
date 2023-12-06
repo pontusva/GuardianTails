@@ -27,7 +27,7 @@ export default function Register() {
   const onSubmit: SubmitHandler<IFormInput> = async (values: IFormInput) => {
     console.log(values);
 
-    const respons = await fetch('http://localhost:8080/api/auth/register', {
+    const respons = await fetch('http://localhost:8080/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
