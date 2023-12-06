@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage.tsx';
+import LoginPage from './pages/LoginPage.tsx';
+import App from './App.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RegisterPage />,
+    element: <App />,
     children: [
       {
         path: '/',
@@ -16,11 +18,11 @@ const router = createBrowserRouter([
       { path: 'dashboard', element: '<Dashboard /> ' },
       {
         path: 'register',
-        element: '<Register />',
+        element: <RegisterPage />,
       },
       {
         path: 'login',
-        element: ' <Login />',
+        element: <LoginPage />,
       },
       {
         path: 'tasks',
