@@ -6,6 +6,7 @@ import {
   petLocationHistory,
   petReportModelFunc,
   imageGalleryModel,
+  communicationLogModel,
 } from './pet.model';
 import { Sequelize } from 'sequelize';
 
@@ -38,6 +39,7 @@ const dbInitFunction = () => {
     petLocationHistory: petLocationHistory(sequelize),
     petReport: petReportModelFunc(sequelize),
     petImageGallery: imageGalleryModel(sequelize),
+    petCommunicationLog: communicationLogModel(sequelize),
     ROLES: ['user', 'admin', 'moderator'],
   };
 
@@ -65,6 +67,12 @@ const dbInitFunction = () => {
 
   db.petReport.belongsTo(db.pet, { foreignKey: 'pet_id' });
   db.pet.hasMany(db.petReport, { foreignKey: 'pet_id' });
+
+  db.petCommunicationLog.belongsTo(db.user, { foreignKey: 'user_id' });
+  db.user.hasMany(db.petCommunicationLog, { foreignKey: 'user_id' });
+
+  db.petCommunicationLog.belongsTo(db.pet, { foreignKey: 'pet_id' });
+  db.pet.hasMany(db.petCommunicationLog, { foreignKey: 'pet_id' });
 
   return db;
 };

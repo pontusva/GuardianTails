@@ -151,3 +151,39 @@ export const imageGalleryModel = (sequelize: Sequelize) => {
   });
   return ImageGallery;
 };
+
+export const communicationLogModel = (sequelize: Sequelize) => {
+  const CommunicationLog = sequelize.define('CommunicationLog', {
+    log_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'users',
+        key: 'user_id',
+      },
+      allowNull: false,
+    },
+    pet_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'pets',
+        key: 'pet_id',
+      },
+      allowNull: false,
+    },
+    timestamp: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false,
+    },
+    message: {
+      type: DataTypes.TEXT,
+    },
+  });
+  return CommunicationLog;
+};
