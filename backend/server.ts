@@ -17,10 +17,13 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 const db = dbInitFunction();
-const Role = db && db.role;
 
+// db && db.sequelize.drop();
 db && db.sequelize.sync();
-db && db.sequelize.sync();
+
+// ({ force: true }).then(() => {
+//   initial();
+// });
 
 // simple route
 app.get('/', (req, res) => {
@@ -29,6 +32,25 @@ app.get('/', (req, res) => {
 
 authRoutes(app);
 userAuthRoutes(app);
+
+// uncomment if all roles are cleared from db
+// function initial() {
+//   const Role: any = db && db.role;
+//   Role.create({
+//     id: 1,
+//     name: 'user',
+//   });
+
+//   Role.create({
+//     id: 2,
+//     name: 'moderator',
+//   });
+
+//   Role.create({
+//     id: 3,
+//     name: 'admin',
+//   });
+// }
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
