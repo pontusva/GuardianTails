@@ -1,5 +1,6 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import HamburgerMenu from '../../svgs/HamburgerMenu';
+import Cookies from 'js-cookie';
 import { useRef } from 'react';
 import {
   Drawer,
@@ -21,8 +22,14 @@ export default function Navigation() {
   const location = useLocation();
   const dontShowNavigation = ['/login', '/register'];
   if (dontShowNavigation.includes(location.pathname)) return null;
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement>(null);
+  console.log(Cookies.get('token'));
+  const handleLogout = () => {
+    Cookies.remove('token');
+    navigate('/login');
+  };
 
   return (
     <>
@@ -40,6 +47,11 @@ export default function Navigation() {
             <DrawerContent>
               <DrawerCloseButton />
               <DrawerHeader>Hello, User</DrawerHeader>
+              <div className="flex justify-center">
+                <Button onClick={handleLogout} className="mb-1 w-28">
+                  Log out
+                </Button>
+              </div>
               <DrawerBody>
                 <Input placeholder="Type here..." />
                 <div className="mt-10">
@@ -63,11 +75,13 @@ export default function Navigation() {
                 <img src="/basicdragonfly.svg" />
               </DrawerBody>
               <DrawerFooter>
-                <div className="flex justify-between w-full">
-                  <NavLink to="/login">faq</NavLink>
-                  <NavLink to="/login">about</NavLink>
-                  <NavLink to="/login">contact</NavLink>
-                  <NavLink to="/login">gdpr</NavLink>
+                <div className="flex w-full flex-col items-center">
+                  <div className="flex justify-between w-full">
+                    <NavLink to="/login">faq</NavLink>
+                    <NavLink to="/login">about</NavLink>
+                    <NavLink to="/login">contact</NavLink>
+                    <NavLink to="/login">gdpr</NavLink>
+                  </div>
                 </div>
               </DrawerFooter>
             </DrawerContent>
