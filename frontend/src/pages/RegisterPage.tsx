@@ -7,6 +7,7 @@ import {
   Button,
   Stack,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 interface IFormInput {
   email: string;
@@ -23,11 +24,11 @@ export default function Register() {
   } = useForm<IFormInput>({
     mode: 'onChange',
   });
-
+  const naviagte = useNavigate();
   const onSubmit: SubmitHandler<IFormInput> = async (values: IFormInput) => {
     console.log(values);
 
-    const respons = await fetch('http://localhost:8080/api/auth/signup', {
+    const response = await fetch('http://localhost:8080/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,8 +39,8 @@ export default function Register() {
         password: values.password,
       }),
     });
-    const result = await respons.json();
-
+    const result = await response.json();
+    response.ok && naviagte('/login');
     console.log(result);
     console.log(errors);
   };

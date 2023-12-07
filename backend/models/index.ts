@@ -46,11 +46,9 @@ const dbInitFunction = () => {
   // users and roles have a many-to-many relationship
   db.role.belongsToMany(db.user, {
     through: 'user_roles',
-    foreignKey: 'user_id',
   });
   db.user.belongsToMany(db.role, {
     through: 'user_roles',
-    foreignKey: 'user_id',
   });
 
   // pets and users have a one-to-many relationship
