@@ -3,9 +3,11 @@ import { Sequelize, DataTypes } from 'sequelize';
 
 export const roleModelFunc = (sequelize: Sequelize) => {
   const Role = sequelize.define('roles', {
-    id: {
+    role_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING,

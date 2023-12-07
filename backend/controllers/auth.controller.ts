@@ -81,6 +81,8 @@ export const signin = (req: Request, res: Response) => {
       if (!user) {
         return res.status(404).send({ message: 'User Not found.' });
       }
+      // jjag skriver in ett löserod,
+      // i databasen finns ett sparat lösenord
 
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
