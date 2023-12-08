@@ -37,7 +37,7 @@ function MapMissingAnimal() {
             }}
             // onMouseMove={e => console.log(e)}
             mapboxAccessToken={mapToken}
-            style={{ width: 600, height: 400 }}
+            style={{ width: '100vw', height: '100dvh' }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
           />
         </>
