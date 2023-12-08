@@ -4,36 +4,39 @@ import { useEffect, useState } from 'react';
 
 function MapMissingAnimal() {
   const token = Cookies.get('token');
+  const [mapToken, setMapToken] = useState('');
+  console.log(token);
   const tokenFunction = async () => {
-    console.log(token);
     const response = await fetch('http://localhost:8080/api/auth/map', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        token: token,
-      }),
     });
     const result = await response.json();
-    console.log(result);
+    setMapToken(result);
   };
-
+  tokenFunction();
   useEffect(() => {
-    tokenFunction();
-  }, []);
+    console.log(mapToken);
+  }, [mapToken]);
   return (
-    <Map
-      mapLib={import('mapbox-gl')}
-      initialViewState={{
-        longitude: -100,
-        latitude: 40,
-        zoom: 3.5,
-      }}
-      mapboxAccessToken={token}
-      style={{ width: 600, height: 400 }}
-      mapStyle="mapbox://styles/mapbox/streets-v9"
-    />
+    <>
+      {mapToken && (
+        <Map
+          mapLib={import('mapbox-gl')}
+          initialViewState={{
+            longitude: -100,
+            latitude: 40,
+            zoom: 3.5,
+          }}
+          mapboxAccessToken={mapToken}
+          style={{ width: 600, height: 400 }}
+          mapStyle="mapbox://styles/mapbox/streets-v9"
+        />
+      )}
+    </>
   );
 }
 export default MapMissingAnimal;
