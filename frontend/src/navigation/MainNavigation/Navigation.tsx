@@ -60,15 +60,19 @@ export default function Navigation() {
                   </p>
                   <div className="mb-16">
                     <Menu>
-                      <MenuItem>My searches</MenuItem>
+                      <MenuItem onClick={onClose}>My searches</MenuItem>
                       <MenuItem>Pet Alerts</MenuItem>
                       <MenuItem>Community Searches</MenuItem>
-                      <MenuItem>Find a Lost Pet</MenuItem>
+                      <MenuItem to="/report-missing-animal" as={NavLink}>
+                        Find a Lost Pet
+                      </MenuItem>
                       <Divider />
                       <Divider />
                       <Divider />
                       <Divider />
-                      <MenuItem>Profile</MenuItem>
+                      <MenuItem to="/" as={NavLink}>
+                        Profile
+                      </MenuItem>
                     </Menu>
                   </div>
                 </div>

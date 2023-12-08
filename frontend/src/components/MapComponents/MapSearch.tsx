@@ -10,9 +10,10 @@ interface Inputs {
 interface Props {
   mapToken: string;
   token: string | undefined;
+  onSelectCity: (ev: number[]) => void;
 }
 
-export default function MapSearch({ mapToken }: Props) {
+export default function MapSearch({ mapToken, onSelectCity }: Props) {
   const [result, setResult] = useState<unknown[]>();
 
   const { handleSubmit, control } = useForm<Inputs>({
@@ -29,7 +30,7 @@ export default function MapSearch({ mapToken }: Props) {
 
   return (
     <div>
-      <MapSearchResultDropdown result={result} />
+      <MapSearchResultDropdown onSelectCity={onSelectCity} result={result} />
       <form onSubmit={handleSubmit(searchFunctionSubmit)}>
         <Controller
           control={control}

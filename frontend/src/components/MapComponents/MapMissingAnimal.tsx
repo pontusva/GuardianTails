@@ -1,13 +1,15 @@
 import Cookies from 'js-cookie';
-import Map from 'react-map-gl';
-
+import Map, { MapRef } from 'react-map-gl';
+import { useRef, useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import MapSearch from './MapSearch';
 import { mapLocationConfirmationStore } from '../../../zustand/MapHooks';
 
 function MapMissingAnimal() {
   const token = Cookies.get('token');
+
   const [mapToken, setMapToken] = useState('');
+  const mapRef = useRef<MapRef | null>(null);
 
   const [viewState, setViewState] = useState({
     longitude: -100,
@@ -15,6 +17,20 @@ function MapMissingAnimal() {
     zoom: 3.5,
   });
 
+  const getZustandLocationConfirmation = mapLocationConfirmationStore(
+    state => state.location
+  );
+
+  const onSelectCity = useCallback(
+    (ev: number[]): void => {
+      console.log(ev);
+      mapRef.current?.flyTo({
+        center: [ev[0], ev[1]],
+        duration: 3500,
+      });
+    },
+    [getZustandLocationConfirmation, mapToken]
+  );
   const tokenFunction = async () => {
     const response = await fetch('http://localhost:8080/api/auth/map', {
       method: 'POST',
@@ -26,9 +42,6 @@ function MapMissingAnimal() {
     const result = await response.json();
     setMapToken(result);
   };
-  const getZustandLocationConfirmation = mapLocationConfirmationStore(
-    state => state.location
-  );
 
   useEffect(() => {
     tokenFunction();
@@ -42,8 +55,13 @@ function MapMissingAnimal() {
     <>
       {mapToken && (
         <>
-          <MapSearch token={token} mapToken={mapToken} />
+          <MapSearch
+            onSelectCity={onSelectCity}
+            token={token}
+            mapToken={mapToken}
+          />
           <Map
+            ref={mapRef}
             mapLib={import('mapbox-gl')}
             initialViewState={{
               longitude: getZustandLocationConfirmation.center[0] || 18.643501,

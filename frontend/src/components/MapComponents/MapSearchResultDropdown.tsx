@@ -6,9 +6,13 @@ import { mapLocationConfirmationStore } from '../../../zustand/MapHooks';
 interface Props {
   // userChosenLocation: unknown[];
   result: unknown[] | undefined;
+  onSelectCity: (ev: number[]) => void;
 }
 
-export default function MapSearchResultDropdown({ result }: Props) {
+export default function MapSearchResultDropdown({
+  result,
+  onSelectCity,
+}: Props) {
   const inputRef = useRef<HTMLButtonElement | null>(null);
 
   const setZustandLocationConfirmation = mapLocationConfirmationStore(
@@ -32,7 +36,10 @@ export default function MapSearchResultDropdown({ result }: Props) {
                 <div key={item.place_name}>
                   {' '}
                   <MenuItem
-                    onClick={() => setZustandLocationConfirmation(item)}>
+                    onClick={() => {
+                      onSelectCity(item.center);
+                      setZustandLocationConfirmation(item);
+                    }}>
                     {item.place_name}
                   </MenuItem>
                 </div>
