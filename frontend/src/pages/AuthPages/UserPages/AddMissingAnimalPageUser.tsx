@@ -1,4 +1,4 @@
-import MapMissingAnimal from '../../../components/MapComponents/Map';
+import MapMissingAnimal from '../../../components/MapComponents/MapMissingAnimal';
 
 function AddMissingAnimalPageUser() {
   return (

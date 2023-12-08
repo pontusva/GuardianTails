@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import MapConfirmLocationModal from './MapConfirmLocationModal';
+import MapSearchResultDropdown from './MapSearchResultDropdown';
+
 import { Input } from '@chakra-ui/react';
 
 interface Inputs {
@@ -28,18 +29,16 @@ export default function MapSearch({ mapToken }: Props) {
 
   return (
     <div>
-      <MapConfirmLocationModal result={result} />
+      <MapSearchResultDropdown result={result} />
       <form onSubmit={handleSubmit(searchFunctionSubmit)}>
         <Controller
           control={control}
           name="test"
-          render={({
-            field: { onChange, onBlur },
-            // fieldState: { invalid, isTouched, isDirty, error },
-          }) => (
+          render={({ field: { onChange, onBlur } }) => (
             <Input
-              onBlur={onBlur} // notify when input is touched
-              onChange={onChange} // send value to hook form
+              placeholder="Sök på område"
+              onBlur={onBlur}
+              onChange={onChange}
             />
           )}
         />
