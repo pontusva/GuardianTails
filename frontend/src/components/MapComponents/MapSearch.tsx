@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import MapConfirmLocationModal from './MapConfirmLocationModal';
+import { Input } from '@chakra-ui/react';
 
 interface Inputs {
   test: string;
@@ -9,16 +11,10 @@ interface Props {
   token: string | undefined;
 }
 
-export default function MapSearch({ mapToken, token }: Props) {
+export default function MapSearch({ mapToken }: Props) {
   const [result, setResult] = useState<unknown[]>();
-  const [userChosenLocation, setUserChosenLocation] = useState<unknown[]>();
-  const {
-    register,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>({
+
+  const { handleSubmit, control } = useForm<Inputs>({
     mode: 'onChange',
   });
   const searchFunctionSubmit: SubmitHandler<Inputs> = async data => {
@@ -29,29 +25,25 @@ export default function MapSearch({ mapToken, token }: Props) {
     const result = await response.json();
     setResult(result.features);
   };
-  console.log(userChosenLocation);
+
   return (
     <div>
+      <MapConfirmLocationModal result={result} />
       <form onSubmit={handleSubmit(searchFunctionSubmit)}>
         <Controller
           control={control}
           name="test"
           render={({
-            field: { onChange, onBlur, value, name, ref },
+            field: { onChange, onBlur },
             // fieldState: { invalid, isTouched, isDirty, error },
-            formState,
           }) => (
-            <input
+            <Input
               onBlur={onBlur} // notify when input is touched
               onChange={onChange} // send value to hook form
             />
           )}
         />
       </form>
-      {result &&
-        result.map((item: any) => (
-          <p onClick={() => setUserChosenLocation(item)}>{item.place_name}</p>
-        ))}
     </div>
   );
 }

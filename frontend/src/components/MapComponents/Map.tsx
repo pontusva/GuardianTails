@@ -35,7 +35,7 @@ function MapMissingAnimal() {
               latitude: 60.128161,
               zoom: 9,
             }}
-            onMouseMove={e => console.log(e)}
+            // onMouseMove={e => console.log(e)}
             mapboxAccessToken={mapToken}
             style={{ width: 600, height: 400 }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
