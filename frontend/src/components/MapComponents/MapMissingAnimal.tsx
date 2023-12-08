@@ -1,11 +1,19 @@
-import Map from 'react-map-gl';
 import Cookies from 'js-cookie';
+import Map from 'react-map-gl';
+
 import { useEffect, useState } from 'react';
 import MapSearch from './MapSearch';
+import { mapLocationConfirmationStore } from '../../../zustand/MapHooks';
 
 function MapMissingAnimal() {
   const token = Cookies.get('token');
   const [mapToken, setMapToken] = useState('');
+
+  const [viewState, setViewState] = useState({
+    longitude: -100,
+    latitude: 40,
+    zoom: 3.5,
+  });
 
   const tokenFunction = async () => {
     const response = await fetch('http://localhost:8080/api/auth/map', {
@@ -18,11 +26,18 @@ function MapMissingAnimal() {
     const result = await response.json();
     setMapToken(result);
   };
+  const getZustandLocationConfirmation = mapLocationConfirmationStore(
+    state => state.location
+  );
 
   useEffect(() => {
     tokenFunction();
-    console.log(mapToken);
-  }, [mapToken]);
+    setViewState({
+      longitude: getZustandLocationConfirmation.center[0] || 18.643501,
+      latitude: getZustandLocationConfirmation.center[1] || 60.128161,
+      zoom: 18,
+    });
+  }, [getZustandLocationConfirmation, mapToken]);
   return (
     <>
       {mapToken && (
@@ -31,13 +46,16 @@ function MapMissingAnimal() {
           <Map
             mapLib={import('mapbox-gl')}
             initialViewState={{
-              longitude: 18.643501,
-              latitude: 60.128161,
+              longitude: getZustandLocationConfirmation.center[0] || 18.643501,
+              latitude: getZustandLocationConfirmation.center[1] || 60.128161,
               zoom: 9,
             }}
+            {...viewState}
+            onMove={evt => setViewState(evt.viewState)}
+            onClick={e => console.log(e)}
             // onMouseMove={e => console.log(e)}
             mapboxAccessToken={mapToken}
-            style={{ width: '100vw', height: '100dvh' }}
+            style={{ height: '100dvh' }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
           />
         </>
