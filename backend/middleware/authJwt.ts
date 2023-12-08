@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { jwtSecret } from '../config/auth.config';
 import db from '../models/index';
 const User = db.user;
 
-const verifyToken = (req, res, next) => {
+const verifyToken = (req: any, res: Response, next: NextFunction) => {
   let token = req.headers['x-access-token'];
 
   if (!token) {
@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, jwtSecret.secret, (err, decoded) => {
+  jwt.verify(token, jwtSecret.secret as string, (err, decoded) => {
     if (err) {
       return res.status(401).send({
         message: 'Unauthorized!',
@@ -24,7 +24,7 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const isAdmin = (req, res, next) => {
+const isAdmin = (req: any, res: Response, next: NextFunction) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then((roles: string[]) => {
       for (let i = 0; i < roles.length; i++) {
@@ -42,7 +42,7 @@ const isAdmin = (req, res, next) => {
   });
 };
 
-const isModerator = (req, res, next) => {
+const isModerator = (req: any, res: Response, next: NextFunction) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
@@ -59,7 +59,7 @@ const isModerator = (req, res, next) => {
   });
 };
 
-const isModeratorOrAdmin = (req, res, next) => {
+const isModeratorOrAdmin = (req: any, res: Response, next: NextFunction) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {

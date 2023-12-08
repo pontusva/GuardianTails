@@ -7,6 +7,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import LoginPage from './pages/LoginPage.tsx';
 import App from './App.tsx';
 import HomePageUser from './pages/AuthPages/UserPages/HomePageUser.tsx';
+import AddMissingAnimalPageUser from './pages/AuthPages/UserPages/AddMissingAnimalPageUser.tsx';
 
 const router = createBrowserRouter([
   {
@@ -27,8 +28,8 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: 'tasks',
-        element: '<TaskManagement />',
+        path: 'report-missing-animal',
+        element: <AddMissingAnimalPageUser />,
       },
     ],
   },
