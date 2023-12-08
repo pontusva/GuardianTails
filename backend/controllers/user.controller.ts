@@ -18,11 +18,6 @@ export const moderatorBoard = (req: Request, res: Response) => {
 
 export const map = (req: Request, res: Response) => {
   const mapToken = process.env.MAP_TOKEN;
-  try {
-    mapToken
-      ? res.status(200).send(mapToken)
-      : res.status(401).send('No token proivded, please login');
-  } catch {
-    res.status(500).send('Error');
-  }
+
+  res.status(200).json(mapToken);
 };

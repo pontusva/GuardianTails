@@ -5,15 +5,17 @@ import db from '../models/index';
 const User = db.user;
 
 const verifyToken = (req: any, res: Response, next: NextFunction) => {
-  let token = req.headers['x-access-token'];
+  let token = req.headers['authorization'];
 
   if (!token) {
     return res.status(403).send({
       message: 'No token provided!',
     });
   }
+  const bearer = token.split(' ');
+  token = bearer[1];
 
-  jwt.verify(token, jwtSecret.secret as string, (err, decoded) => {
+  jwt.verify(token, jwtSecret.secret as string, (err: any, decoded: any) => {
     if (err) {
       return res.status(401).send({
         message: 'Unauthorized!',
@@ -25,7 +27,7 @@ const verifyToken = (req: any, res: Response, next: NextFunction) => {
 };
 
 const isAdmin = (req: any, res: Response, next: NextFunction) => {
-  User.findByPk(req.userId).then(user => {
+  User.findByPk(req.userId).then((user: any) => {
     user.getRoles().then((roles: string[]) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === 'admin') {
@@ -43,7 +45,7 @@ const isAdmin = (req: any, res: Response, next: NextFunction) => {
 };
 
 const isModerator = (req: any, res: Response, next: NextFunction) => {
-  User.findByPk(req.userId).then(user => {
+  User.findByPk(req.userId).then((user: any) => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === 'moderator') {
@@ -60,7 +62,7 @@ const isModerator = (req: any, res: Response, next: NextFunction) => {
 };
 
 const isModeratorOrAdmin = (req: any, res: Response, next: NextFunction) => {
-  User.findByPk(req.userId).then(user => {
+  User.findByPk(req.userId).then((user: any) => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === 'moderator') {
