@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage.tsx';
 import App from './App.tsx';
 import HomePageUser from './pages/AuthPages/UserPages/HomePageUser.tsx';
 import AddMissingAnimalPageUser from './pages/AuthPages/UserPages/AddMissingAnimalPageUser.tsx';
+import ImageUpload from './components/FileUpload/ImageUpload.tsx';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: 'report-missing-animal',
         element: <AddMissingAnimalPageUser />,
+      },
+      {
+        path: 'upload',
+        element: <ImageUpload />,
       },
     ],
   },

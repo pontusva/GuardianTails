@@ -8,7 +8,7 @@ import { mapRoutes } from './routes/proxy.routes';
 const app = express();
 dotenv.config();
 var corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:8080',
 };
 
 app.use(cors());
