@@ -11,7 +11,6 @@ export default function imageUpload() {
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(file);
     const formData = new FormData();
     formData.append('image', file);
 
