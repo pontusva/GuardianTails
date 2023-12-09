@@ -39,6 +39,7 @@ export default function imageUpload() {
   };
 
   useEffect(() => {
+    URL.revokeObjectURL(srcImg);
     getImage();
   }, [imageName]);
 
