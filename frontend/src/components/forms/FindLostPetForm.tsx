@@ -1,6 +1,3 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState } from 'react';
-import Cookies from 'js-cookie';
 import {
   FormErrorMessage,
   FormLabel,
@@ -9,69 +6,25 @@ import {
   Button,
   Stack,
   Textarea,
-  useDisclosure,
 } from '@chakra-ui/react';
 
-import { useNavigate } from 'react-router-dom';
-import MapMissingAnimal from '../MapComponents/MapMissingAnimal';
-import ImageUpload from '../FileUpload/ImageUpload';
-
-type status = 'lost' | 'found';
-
-interface IFormInput {
-  name: string; // required field
-  species: string; // required field
-  breed: string;
-  color: string;
-  age: number;
-  lastSeen: string;
-  description: string;
-  owner_id: number;
-  status: status; // required field
+interface Props {
+  NextActionButtonOpenFileUpload: JSX.Element;
+  handleSubmit: any;
+  register: any;
+  onSubmit: any;
+  errors: any;
+  isSubmitting: any;
 }
-type ButtonPropProps = {
-  onOpenMap: () => void;
-  onCloseMap: () => void;
-};
 
-const ButtonProp = ({ onOpenMap, onCloseMap }: ButtonPropProps) => {
-  return (
-    <Button
-      className="w-full"
-      colorScheme="blue"
-      onClick={() => {
-        onCloseMap();
-        onOpenMap();
-      }}>
-      From PetForm (next)
-    </Button>
-  );
-};
-
-export default function FindLostPetForm() {
-  const navigate = useNavigate();
-  const [showSubmitButton, setShowSubmitButton] = useState(false);
-  const {
-    isOpen: isOpenMap,
-    onOpen: onOpenMap,
-    onClose: onCloseMap,
-    isOpen: isOpenImage,
-    onOpen: onOpenImage,
-    onClose: onCloseImage,
-  } = useDisclosure();
-  const token = Cookies.get('token');
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isSubmitting },
-  } = useForm<IFormInput>({
-    mode: 'onChange',
-  });
-
-  const onSubmit: SubmitHandler<IFormInput> = data => {
-    console.log(data);
-  };
-
+export default function FindLostPetForm({
+  NextActionButtonOpenFileUpload,
+  handleSubmit,
+  onSubmit,
+  register,
+  errors,
+  isSubmitting,
+}: Props) {
   return (
     <div
       style={{ height: '100dvh', width: '100dvw' }}
@@ -108,7 +61,7 @@ export default function FindLostPetForm() {
               </FormControl>
               <FormControl isInvalid={!!errors.species}>
                 <FormLabel margin={0} className="" htmlFor="password">
-                  Djurets art
+                  Vad är det för art?
                 </FormLabel>
                 <Input
                   borderColor="#3b444b"
@@ -219,28 +172,19 @@ export default function FindLostPetForm() {
           </div>
 
           <div>
-            {showSubmitButton && (
-              <Button
-                width={80}
-                colorScheme="teal"
-                isLoading={isSubmitting}
-                type="submit">
-                Nästa
-              </Button>
-            )}
+            <Button
+              width={80}
+              className="mt-5"
+              colorScheme="teal"
+              isLoading={isSubmitting}
+              type="submit">
+              Skicka
+            </Button>
+            <div className="mt-5">{NextActionButtonOpenFileUpload}</div>
           </div>
         </form>
-        <MapMissingAnimal
-          onOpenMap={onOpenMap}
-          isOpenMap={isOpenMap}
-          onCloseMap={onCloseMap}
-        />
-        <ImageUpload
-          nextAction={
-            <ButtonProp onCloseMap={onCloseImage} onOpenMap={onOpenMap} />
-          }
-        />
-        <div className="mt-5">
+
+        <div className="mt-5 ">
           <img src="/basicdragonfly.svg" />
         </div>
       </div>

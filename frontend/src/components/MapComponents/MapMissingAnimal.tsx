@@ -1,8 +1,7 @@
 import Cookies from 'js-cookie';
-import Map, { MapRef } from 'react-map-gl';
+import Map, { MapRef, LngLatLike } from 'react-map-gl';
 import { useRef, useCallback } from 'react';
 import { useEffect, useState } from 'react';
-import ImageUpload from '../FileUpload/ImageUpload';
 import MapSearch from './MapSearch';
 import { mapLocationConfirmationStore } from '../../../zustand/MapHooks';
 import {
@@ -11,22 +10,20 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  useDisclosure,
   Button,
 } from '@chakra-ui/react';
 
 interface Props {
-  onOpenMap: () => void;
   isOpenMap: boolean;
   onCloseMap: () => void;
 }
-
-function MapMissingAnimal({ onOpenMap, isOpenMap, onCloseMap }: Props) {
+// { onOpenMap, isOpenMap, onCloseMap }: Props
+function MapMissingAnimal({ onCloseMap, isOpenMap }: Props) {
   const token = Cookies.get('token');
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const [mapToken, setMapToken] = useState('');
   const mapRef = useRef<MapRef | null>(null);
-
+  // const { isOpen, onClose } = useDisclosure();
   const [viewState, setViewState] = useState({
     longitude: -100,
     latitude: 40,
@@ -36,12 +33,12 @@ function MapMissingAnimal({ onOpenMap, isOpenMap, onCloseMap }: Props) {
   const getZustandLocationConfirmation = mapLocationConfirmationStore(
     state => state.location
   );
-
+  console.log(token);
   const onSelectCity = useCallback(
-    (ev: number[]): void => {
-      console.log(ev);
+    (lngLatArray: LngLatLike): void => {
+      console.log(lngLatArray);
       mapRef.current?.flyTo({
-        center: [ev[0], ev[1]],
+        center: lngLatArray,
         duration: 3500,
         speed: 0.5,
       });
@@ -65,17 +62,26 @@ function MapMissingAnimal({ onOpenMap, isOpenMap, onCloseMap }: Props) {
     setViewState({
       longitude: getZustandLocationConfirmation.center[0] || 18.643501,
       latitude: getZustandLocationConfirmation.center[1] || 60.128161,
-      zoom: 18,
+      zoom: 14,
     });
   }, [getZustandLocationConfirmation, mapToken]);
   return (
     <>
       <>
-        {' '}
-        <Drawer placement="right" onClose={onCloseMap} isOpen={isOpenMap}>
+        <Drawer
+          size="lg"
+          onClose={onCloseMap}
+          isOpen={isOpenMap}
+          placement="right">
           <DrawerOverlay />
           <DrawerContent>
-            <DrawerHeader borderBottomWidth="1px">Välj plats</DrawerHeader>
+            <DrawerHeader borderBottomWidth="1px">
+              <div className=" w-full flex  justify-around items-center ">
+                <h1>Välj plats</h1>
+
+                <Button onClick={onCloseMap}>CLOSE</Button>
+              </div>
+            </DrawerHeader>
             <DrawerBody>
               Sök efter platsen du senast såg ditt djur
               {mapToken && (

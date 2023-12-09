@@ -2,11 +2,11 @@ import { Button, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import ChevronDown from '../../svgs/ChevronDown';
 import { useEffect, useRef } from 'react';
 import { mapLocationConfirmationStore } from '../../../zustand/MapHooks';
-
+import { LngLatLike } from 'mapbox-gl';
 interface Props {
   // userChosenLocation: unknown[];
   result: unknown[] | undefined;
-  onSelectCity: (ev: number[]) => void;
+  onSelectCity: (lngLatArray: LngLatLike) => void;
 }
 
 export default function MapSearchResultDropdown({

@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  useRef,
-  PropsWithChildren,
-} from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { FormEvent } from 'react';
 import { Button } from '@chakra-ui/react';
@@ -20,15 +13,23 @@ import {
 } from '@chakra-ui/react';
 
 interface Props {
-  nextAction: JSX.Element;
+  // nextAction: JSX.Element;
+  isOpenImage: boolean;
+  onOpenImage: () => void;
+  onCloseImage: () => void;
+  NextActionButtonOpenMapCloseFileUpload: JSX.Element;
 }
 
-export default function imageUpload({ nextAction }: Props) {
+export default function imageUpload({
+  isOpenImage,
+  onCloseImage,
+  NextActionButtonOpenMapCloseFileUpload,
+}: Props) {
   const [file, setFile] = useState<File | ''>('');
   const [imageName, setImageName] = useState('');
   const [srcImg, setSrcImg] = useState('');
   const [closeAndNextAction, setCloseAndNextAction] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onClose } = useDisclosure();
 
   const token = Cookies.get('token');
   const inputRef = useRef<HTMLButtonElement | null>(null);
@@ -75,7 +76,7 @@ export default function imageUpload({ nextAction }: Props) {
 
   useEffect(() => {
     URL.revokeObjectURL(srcImg);
-    getImage();
+    imageName && getImage();
   }, [imageName]);
 
   useEffect(() => {}, [closeAndNextAction]);
@@ -84,7 +85,7 @@ export default function imageUpload({ nextAction }: Props) {
     <>
       <>
         {' '}
-        <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+        <Drawer placement="left" onClose={onCloseImage} isOpen={isOpenImage}>
           <DrawerOverlay />
           <DrawerContent>
             <DrawerHeader borderBottomWidth="1px">
@@ -111,20 +112,19 @@ export default function imageUpload({ nextAction }: Props) {
                     <Button type="submit">Ladda upp bild</Button>
                   </div>
                 </form>
-                {nextAction /*from pet form */}
+
+                {/* <ButtonProp /> */}
                 <div className="hidden">
                   <Button ref={inputRef} onClick={onClose}>
                     Stäng
                   </Button>
                 </div>
+                {NextActionButtonOpenMapCloseFileUpload}
                 {imageName && <img src={srcImg} />}
               </>
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-        <Button className="w-full" colorScheme="blue" onClick={onOpen}>
-          Image Upload
-        </Button>
       </>
     </>
   );

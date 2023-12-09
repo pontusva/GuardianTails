@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import MapSearchResultDropdown from './MapSearchResultDropdown';
-
+import { LngLatLike } from 'mapbox-gl';
 import { Input } from '@chakra-ui/react';
 
 interface Inputs {
@@ -10,7 +10,7 @@ interface Inputs {
 interface Props {
   mapToken: string;
   token: string | undefined;
-  onSelectCity: (ev: number[]) => void;
+  onSelectCity: (lngLatArray: LngLatLike) => void;
 }
 
 export default function MapSearch({ mapToken, onSelectCity }: Props) {
