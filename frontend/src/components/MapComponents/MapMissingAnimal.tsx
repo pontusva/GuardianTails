@@ -27,6 +27,7 @@ function MapMissingAnimal() {
       mapRef.current?.flyTo({
         center: [ev[0], ev[1]],
         duration: 3500,
+        speed: 0.5,
       });
     },
     [getZustandLocationConfirmation, mapToken]
