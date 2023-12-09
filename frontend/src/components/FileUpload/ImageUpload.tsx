@@ -45,7 +45,7 @@ export default function imageUpload() {
 
   return (
     <>
-      <h1>Upload a picture of the missing animal</h1>
+      <h1>Börja med att ladda upp en bild på djuret ni söker..</h1>
       <form onSubmit={submit}>
         <div className="flex flex-col">
           <input
