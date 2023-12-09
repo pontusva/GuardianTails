@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FormEvent } from 'react';
-import { Input, Button } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import Cookies from 'js-cookie';
 export default function imageUpload() {
   const [file, setFile] = useState<File | ''>('');
-
   const [imageName, setImageName] = useState('');
   const [srcImg, setSrcImg] = useState('');
+
   const token = Cookies.get('token');
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -27,24 +27,22 @@ export default function imageUpload() {
     setImageName(data.imageName);
   };
 
-  // console.log(imageName);
-
   const getImage = async () => {
-    console.log(imageName);
     const result = await fetch(`http://localhost:8080/images/${imageName}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
     const blob = await result.blob();
-    console.log(blob);
     const imageUrl = URL.createObjectURL(blob);
-    console.log(imageUrl);
     setSrcImg(imageUrl);
   };
+
   useEffect(() => {
     getImage();
   }, [imageName]);
+
   return (
     <>
       <h1>Upload a picture of the missing animal</h1>
