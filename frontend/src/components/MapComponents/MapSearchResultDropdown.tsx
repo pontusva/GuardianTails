@@ -34,7 +34,6 @@ export default function MapSearchResultDropdown({
             {result &&
               result.map((item: any) => (
                 <div key={item.place_name}>
-                  {' '}
                   <MenuItem
                     onClick={() => {
                       onSelectCity(item.center);

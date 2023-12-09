@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
 import Cookies from 'js-cookie';
 import {
   FormErrorMessage,
@@ -8,8 +9,12 @@ import {
   Button,
   Stack,
   Textarea,
+  useDisclosure,
 } from '@chakra-ui/react';
+
 import { useNavigate } from 'react-router-dom';
+import MapMissingAnimal from '../MapComponents/MapMissingAnimal';
+import ImageUpload from '../FileUpload/ImageUpload';
 
 type status = 'lost' | 'found';
 
@@ -24,9 +29,36 @@ interface IFormInput {
   owner_id: number;
   status: status; // required field
 }
+type ButtonPropProps = {
+  onOpenMap: () => void;
+  onCloseMap: () => void;
+};
+
+const ButtonProp = ({ onOpenMap, onCloseMap }: ButtonPropProps) => {
+  return (
+    <Button
+      className="w-full"
+      colorScheme="blue"
+      onClick={() => {
+        onCloseMap();
+        onOpenMap();
+      }}>
+      From PetForm (next)
+    </Button>
+  );
+};
 
 export default function FindLostPetForm() {
   const navigate = useNavigate();
+  const [showSubmitButton, setShowSubmitButton] = useState(false);
+  const {
+    isOpen: isOpenMap,
+    onOpen: onOpenMap,
+    onClose: onCloseMap,
+    isOpen: isOpenImage,
+    onOpen: onOpenImage,
+    onClose: onCloseImage,
+  } = useDisclosure();
   const token = Cookies.get('token');
   const {
     handleSubmit,
@@ -187,16 +219,27 @@ export default function FindLostPetForm() {
           </div>
 
           <div>
-            <Button
-              width={80}
-              colorScheme="teal"
-              isLoading={isSubmitting}
-              type="submit">
-              Nästa
-            </Button>
+            {showSubmitButton && (
+              <Button
+                width={80}
+                colorScheme="teal"
+                isLoading={isSubmitting}
+                type="submit">
+                Nästa
+              </Button>
+            )}
           </div>
         </form>
-
+        <MapMissingAnimal
+          onOpenMap={onOpenMap}
+          isOpenMap={isOpenMap}
+          onCloseMap={onCloseMap}
+        />
+        <ImageUpload
+          nextAction={
+            <ButtonProp onCloseMap={onCloseImage} onOpenMap={onOpenMap} />
+          }
+        />
         <div className="mt-5">
           <img src="/basicdragonfly.svg" />
         </div>
