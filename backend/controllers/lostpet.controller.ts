@@ -5,8 +5,17 @@ const db = dbInitFunction();
 const LostPet = db?.pet;
 
 export const createLostPet = (req: Request, res: Response) => {
-  const { name, species, breed, color, age, description, owener_id, status } =
-    req.body;
+  const {
+    name,
+    species,
+    breed,
+    color,
+    age,
+    lastSeenLocation,
+    description,
+    owener_id,
+    status,
+  } = req.body;
 
   const pet = {
     name,
@@ -14,6 +23,7 @@ export const createLostPet = (req: Request, res: Response) => {
     breed,
     color,
     age,
+    lastSeenLocation,
     description,
     owener_id,
     status,

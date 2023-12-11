@@ -1,3 +1,5 @@
+import { preciseMapLatLng } from '../../../zustand/MapHooks';
+
 import {
   FormErrorMessage,
   FormLabel,
@@ -15,6 +17,7 @@ interface Props {
   onSubmit: any;
   errors: any;
   isSubmitting: any;
+  OpenMapButton: JSX.Element;
 }
 
 export default function FindLostPetForm({
@@ -24,7 +27,12 @@ export default function FindLostPetForm({
   register,
   errors,
   isSubmitting,
+  OpenMapButton,
 }: Props) {
+  const getPreciseMapLatLng = preciseMapLatLng(
+    state => state.preciseMapLocation
+  );
+  console.log(getPreciseMapLatLng);
   return (
     <div
       style={{ height: '100dvh', width: '100dvw' }}
@@ -116,23 +124,6 @@ export default function FindLostPetForm({
                   {errors.color && errors.color.message}
                 </FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={!!errors.lastSeen}>
-                <FormLabel margin={0} className="" htmlFor="password">
-                  Vart sågs djuret senast?
-                </FormLabel>
-                <Input
-                  borderColor="#3b444b"
-                  opacity={0.9}
-                  borderWidth={2}
-                  id="lastSeen"
-                  type="text"
-                  placeholder="Vänersborg, Gatgatan"
-                  {...register('lastSeen')}
-                />
-                <FormErrorMessage>
-                  {errors.lastSeen && errors.lastSeen.message}
-                </FormErrorMessage>
-              </FormControl>
               <FormControl isInvalid={!!errors.age}>
                 <FormLabel margin={0} className="" htmlFor="password">
                   Hur gammal är djuret?
@@ -148,6 +139,24 @@ export default function FindLostPetForm({
                 />
                 <FormErrorMessage>
                   {errors.age && errors.age.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.lastSeen}>
+                <FormLabel margin={0} className="" htmlFor="password">
+                  Ladda upp bilder
+                </FormLabel>
+                {NextActionButtonOpenFileUpload}
+                <FormErrorMessage>
+                  {errors.lastSeen && errors.lastSeen.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.lastSeen}>
+                <FormLabel margin={0} className="" htmlFor="password">
+                  Vart sågs djuret senast?
+                </FormLabel>
+                {OpenMapButton}
+                <FormErrorMessage>
+                  {errors.lastSeen && errors.lastSeen.message}
                 </FormErrorMessage>
               </FormControl>
 
@@ -180,7 +189,6 @@ export default function FindLostPetForm({
               type="submit">
               Skicka
             </Button>
-            <div className="mt-5">{NextActionButtonOpenFileUpload}</div>
           </div>
         </form>
 

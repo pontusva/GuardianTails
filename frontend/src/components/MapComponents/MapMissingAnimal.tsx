@@ -3,7 +3,10 @@ import Map, { MapRef, LngLatLike } from 'react-map-gl';
 import { useRef, useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import MapSearch from './MapSearch';
-import { mapLocationConfirmationStore } from '../../../zustand/MapHooks';
+import {
+  mapLocationConfirmationStore,
+  preciseMapLatLng,
+} from '../../../zustand/MapHooks';
 import {
   Drawer,
   DrawerBody,
@@ -33,6 +36,8 @@ function MapMissingAnimal({ onCloseMap, isOpenMap }: Props) {
   const getZustandLocationConfirmation = mapLocationConfirmationStore(
     state => state.location
   );
+
+  const setPreciseMapLatLng = preciseMapLatLng(state => state.update);
   console.log(token);
   const onSelectCity = useCallback(
     (lngLatArray: LngLatLike): void => {
@@ -79,7 +84,9 @@ function MapMissingAnimal({ onCloseMap, isOpenMap }: Props) {
               <div className=" w-full flex  justify-around items-center ">
                 <h1>Välj plats</h1>
 
-                <Button onClick={onCloseMap}>CLOSE</Button>
+                <Button colorScheme="blue" onClick={onCloseMap}>
+                  CLOSE
+                </Button>
               </div>
             </DrawerHeader>
             <DrawerBody>
@@ -103,7 +110,7 @@ function MapMissingAnimal({ onCloseMap, isOpenMap }: Props) {
                     }}
                     {...viewState}
                     onMove={evt => setViewState(evt.viewState)}
-                    onClick={e => console.log(e)}
+                    onClick={e => setPreciseMapLatLng(e.lngLat)}
                     // onMouseMove={e => console.log(e)}
                     mapboxAccessToken={mapToken}
                     style={{ height: '100dvh' }}

@@ -22,6 +22,10 @@ interface IFormInput {
   status: status; // required field
 }
 
+interface OpenMapButtonProps {
+  onOpenMap: () => void;
+}
+
 const ButtonProp = ({ onCloseImage, onOpenMap }: ButtonPropProps) => {
   return (
     <Button
@@ -31,7 +35,15 @@ const ButtonProp = ({ onCloseImage, onOpenMap }: ButtonPropProps) => {
         onOpenMap();
         onCloseImage();
       }}>
-      Next
+      Öppna karta
+    </Button>
+  );
+};
+
+const OpenMapButton = ({ onOpenMap }: OpenMapButtonProps) => {
+  return (
+    <Button className="w-full" colorScheme="blue" onClick={onOpenMap}>
+      Öppna karta
     </Button>
   );
 };
@@ -43,7 +55,7 @@ interface NextActionButtionProps {
 const NextActionButtion = ({ onOpenImage }: NextActionButtionProps) => {
   return (
     <Button className="w-full" colorScheme="blue" onClick={onOpenImage}>
-      Next
+      Filuppladdning
     </Button>
   );
 };
@@ -78,6 +90,7 @@ function AddMissingAnimalPageUser() {
         NextActionButtonOpenFileUpload={
           <NextActionButtion onOpenImage={onOpenImage} />
         }
+        OpenMapButton={<OpenMapButton onOpenMap={onOpenMap} />}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
         register={register}
