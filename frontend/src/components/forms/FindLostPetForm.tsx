@@ -36,7 +36,7 @@ export default function FindLostPetForm({
   return (
     <div
       style={{ height: '100dvh', width: '100dvw' }}
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col mt-24 justify-center items-center"
       // className="bg-contain  bg-no-repeat bg-bottom object-contain bg-[url('/basicdragonfly.svg')]"
     >
       <div className="relative top-28 w-80">
