@@ -1,5 +1,3 @@
-import { preciseMapLatLng } from '../../../zustand/MapHooks';
-
 import {
   FormErrorMessage,
   FormLabel,
@@ -29,10 +27,6 @@ export default function FindLostPetForm({
   isSubmitting,
   OpenMapButton,
 }: Props) {
-  const getPreciseMapLatLng = preciseMapLatLng(
-    state => state.preciseMapLocation
-  );
-  console.log(getPreciseMapLatLng);
   return (
     <div
       style={{ height: '100dvh', width: '100dvw' }}

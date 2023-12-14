@@ -11,21 +11,21 @@ export const createLostPet = (req: Request, res: Response) => {
     breed,
     color,
     age,
-    lastSeenLocation,
+    last_seen_location,
     description,
-    owener_id,
+    owner_id,
     status,
   } = req.body;
-
+  console.log(last_seen_location);
   const pet = {
     name,
     species,
     breed,
     color,
     age,
-    lastSeenLocation,
+    last_seen_location,
     description,
-    owener_id,
+    owner_id,
     status,
   };
   LostPet!

@@ -26,7 +26,7 @@ export const petModelFunc = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER,
     },
     last_seen_location: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.JSONB,
     },
     description: {
       type: DataTypes.TEXT,
