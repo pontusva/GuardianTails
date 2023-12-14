@@ -51,22 +51,30 @@ function MapMissingAnimal({ onCloseMap, isOpenMap }: Props) {
     [getZustandLocationConfirmation, mapToken]
   );
   const tokenFunction = async () => {
-    const response = await fetch('http://localhost:8080/api/auth/map', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const result = await response.json();
-    setMapToken(result);
+    try {
+      const response = await fetch('http://localhost:8080/api/auth/map', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const result = await response.json();
+      setMapToken(result);
+    } catch (errors) {
+      console.log(errors);
+    }
   };
 
   useEffect(() => {
     tokenFunction();
     setViewState({
-      longitude: getZustandLocationConfirmation.center[0] || 18.643501,
-      latitude: getZustandLocationConfirmation.center[1] || 60.128161,
+      longitude: getZustandLocationConfirmation
+        ? getZustandLocationConfirmation.center[0]
+        : 18.643501,
+      latitude: getZustandLocationConfirmation
+        ? getZustandLocationConfirmation.center[1]
+        : 60.128161,
       zoom: 14,
     });
   }, [getZustandLocationConfirmation, mapToken]);
@@ -102,10 +110,8 @@ function MapMissingAnimal({ onCloseMap, isOpenMap }: Props) {
                     ref={mapRef}
                     mapLib={import('mapbox-gl')}
                     initialViewState={{
-                      longitude:
-                        getZustandLocationConfirmation.center[0] || 18.643501,
-                      latitude:
-                        getZustandLocationConfirmation.center[1] || 60.128161,
+                      longitude: 18.643501,
+                      latitude: 60.128161,
                       zoom: 9,
                     }}
                     {...viewState}

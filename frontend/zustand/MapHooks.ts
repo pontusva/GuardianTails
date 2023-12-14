@@ -21,7 +21,7 @@ export const mapLocationConfirmationStore = create<Location>()(
       removeLocation: () => set(() => ({ location: null })),
     }),
     {
-      name: 'userid-storage',
+      name: 'drop-down-map-location',
     }
   )
 );
@@ -34,7 +34,7 @@ export const preciseMapLatLng = create<PreciseLocation>()(
       remove: () => set(() => ({ preciseMapLocation: null })),
     }),
     {
-      name: 'userid-storage',
+      name: 'location-where-pet-was-was-seen',
     }
   )
 );
