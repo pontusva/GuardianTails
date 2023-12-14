@@ -37,6 +37,8 @@ export default function imageUpload({
     event.preventDefault();
     const formData = new FormData();
     formData.append('image', file);
+    const petId = 17;
+    formData.append('pet_id', String(petId));
     try {
       const result = await fetch('http://localhost:8080/api/images', {
         headers: {

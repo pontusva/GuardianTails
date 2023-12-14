@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
+import dbInitFunction from '../models';
 import path from 'path';
 import fs from 'fs';
+const db = dbInitFunction();
+
+const PetImageGallery = db?.petImageGallery;
 
 export const allAccess = (req: Request, res: Response) => {
   res.status(200).send('Public Content.');
@@ -34,7 +38,23 @@ export const uploadImage = (req: Request, res: Response) => {
   const imageName = req.file && req.file.filename;
   const description = req.body.description;
 
-  // Save this data to a database probably
+  const pet_id = req.body.pet_id; // You need to get the pet_id from somewhere
+
+  // Create a new instance of the ImageGallery model
+  PetImageGallery!.create({
+    pet_id,
+    image_url: imageName, // Assuming imageName is the URL of the image
+    description,
+  });
+
+  // Save the instance to the database
+  try {
+    console.log('Image saved successfully');
+    res.send({ description, imageName });
+  } catch (error) {
+    console.error('Failed to save image:', error);
+    res.status(500).send({ error: 'Failed to save image' });
+  }
 
   console.log(description, imageName);
   res.send({ description, imageName });
