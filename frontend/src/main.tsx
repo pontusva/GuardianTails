@@ -9,6 +9,8 @@ import App from './App.tsx';
 import HomePageUser from './pages/AuthPages/UserPages/HomePageUser.tsx';
 import AddMissingAnimalPageUser from './pages/AuthPages/UserPages/AddMissingAnimalPageUser.tsx';
 import MyLostPetsPage from './pages/AuthPages/UserPages/MyLostPetsPage.tsx';
+import PetQuestGuide from './pages/AuthPages/UserPages/PetQuestGuide.tsx';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: 'my-lost-pets',
         element: <MyLostPetsPage />,
+      },
+      {
+        path: 'petquest-guide',
+        element: <PetQuestGuide />,
       },
     ],
   },
