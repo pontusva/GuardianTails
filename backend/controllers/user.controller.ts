@@ -11,6 +11,7 @@ const db = dbInitFunction();
 
 const PetImageGallery = db?.petImageGallery;
 const LostPet = db?.pet;
+const User = db?.user;
 const sequelize = db?.sequelize;
 
 export const allAccess = (req: Request, res: Response) => {
@@ -46,12 +47,16 @@ export const getAllLostPets = async (req: Request, res: Response) => {
   const pets = await LostPet!.findAll({
     where: {
       status: 'lost',
-      user_id,
+      owner_id: 1,
     },
     include: [
       {
         model: PetImageGallery!,
         attributes: ['image_url'],
+      },
+      {
+        model: User, // Include the User model
+        attributes: ['username', 'email'], // Specify the attributes you want to include from the User model
       },
     ],
   });

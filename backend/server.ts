@@ -50,6 +50,7 @@ mapRoutes(app);
 //     name: 'admin',
 //   });
 // }
+// initial();
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

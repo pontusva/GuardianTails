@@ -71,7 +71,8 @@ const dbInitFunction = () => {
 
   db.petCommunicationLog.belongsTo(db.pet, { foreignKey: 'pet_id' });
   db.pet.hasMany(db.petCommunicationLog, { foreignKey: 'pet_id' });
-
+  db.pet.hasMany(db.petImageGallery, { foreignKey: 'pet_id' });
+  db.petImageGallery.belongsTo(db.pet, { foreignKey: 'pet_id' });
   return db;
 };
 
