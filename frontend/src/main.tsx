@@ -32,7 +32,7 @@ const router = createBrowserRouter([
         element: <AddMissingAnimalPageUser />,
       },
       {
-        path: 'my-searches',
+        path: 'my-lost-pets',
         element: <MyLostPetsPage />,
       },
     ],

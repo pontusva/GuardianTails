@@ -32,7 +32,7 @@ export default function Navigation() {
   };
 
   const menuItems = [
-    'My searches',
+    'My Lost Pets',
     'Pet Alerts',
     'Community Searches',
     'Find a Lost Pet',
