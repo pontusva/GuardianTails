@@ -43,7 +43,7 @@ export const uploadImage = (req: Request, res: Response) => {
   // Create a new instance of the ImageGallery model
   PetImageGallery!.create({
     pet_id,
-    image_url: imageName, // Assuming imageName is the URL of the image
+    image_url: imageName,
     description,
   });
 
