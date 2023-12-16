@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { authRoutes } from './routes/auth.routes';
 import { userAuthRoutes } from './routes/user.routes';
 import { mapRoutes } from './routes/proxy.routes';
-// import { lostPetRoutes } from './routes/lostpet.routes';
+
 const app = express();
 dotenv.config();
 var corsOptions = {
@@ -14,46 +14,28 @@ var corsOptions = {
 
 app.use(cors());
 
-// parse requests of content-type - application/json
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
 const db = dbInitFunction();
-
-// db && db.sequelize.drop();
 db && db.sequelize.sync();
-
-// simple route
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to bezkoder application.' });
-});
 
 authRoutes(app);
 userAuthRoutes(app);
 mapRoutes(app);
 
-// uncomment if all roles are cleared from db
-// function initial() {
-//   const Role: any = db && db.role;
-//   Role.create({
-//     id: 1,
-//     name: 'user',
-//   });
+/*
+  *** IMPORTANT ***
+  If all tables are dropped, the script that will reinitialize the roles
+  can be found in the devScripts folder.
+*/
 
-//   Role.create({
-//     id: 2,
-//     name: 'moderator',
-//   });
-
-//   Role.create({
-//     id: 3,
-//     name: 'admin',
-//   });
-// }
-// initial();
-
-// set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+/*
+*** SPECIAL THANKS ***
+to BezKoder for the tutorial on how to implement 
+JWT authentication in a Node.js Express application.
+*/
