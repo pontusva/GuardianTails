@@ -35,6 +35,7 @@ export default function Navigation() {
     'My Lost Pets',
     'Pet Alerts',
     'Community Searches',
+    'PetQuest Guide',
     'Find a Lost Pet',
   ];
 
