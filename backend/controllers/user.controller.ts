@@ -41,7 +41,25 @@ export const getImage = (req: Request, res: Response) => {
   readStream.pipe(res);
 };
 
-export const uploadImageTest = async (req: Request, res: Response) => {
+export const getAllLostPets = async (req: Request, res: Response) => {
+  const { user_id } = req.query;
+  const pets = await LostPet!.findAll({
+    where: {
+      status: 'lost',
+      user_id,
+    },
+    include: [
+      {
+        model: PetImageGallery!,
+        attributes: ['image_url'],
+      },
+    ],
+  });
+
+  res.send(pets);
+};
+
+export const uploadLostPet = async (req: Request, res: Response) => {
   const imageName = req.file && req.file.filename;
 
   const {

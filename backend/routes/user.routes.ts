@@ -38,9 +38,15 @@ export const userAuthRoutes = (app: Express) => {
 
   app.post(
     '/api/lost-pet',
+    [authJwt.verifyToken],
     cors(),
     authJwt.verifyToken,
     upload.single('image'),
-    controller.uploadImageTest
+    controller.uploadLostPet
+  );
+  app.post(
+    '/api/all-user-lost-pets',
+    [authJwt.verifyToken],
+    controller.getAllLostPets
   );
 };
