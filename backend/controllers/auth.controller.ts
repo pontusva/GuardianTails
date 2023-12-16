@@ -7,19 +7,6 @@ import { Op } from '@sequelize/core';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-const db = dbInitFunction();
-
-const userAndRoleGuard = (function () {
-  if (!db) return null;
-  const User = db.user;
-  const Role = db.role;
-  return { User, Role };
-})();
-
-const userAndRole = userAndRoleGuard;
-
-const { User, Role } = userAndRole || { User: '', Role: '' };
-
 type Roles = 'user' | 'admin' | 'moderator';
 
 interface SignUpRequest {
@@ -34,6 +21,19 @@ interface User {
   email: string;
   password: string;
 }
+
+const db = dbInitFunction();
+
+const userAndRoleGuard = (function () {
+  if (!db) return null;
+  const User = db.user;
+  const Role = db.role;
+  return { User, Role };
+})();
+
+const userAndRole = userAndRoleGuard;
+
+const { User, Role }: any = userAndRole;
 
 export const signup = (req: Request, res: Response) => {
   // Save User to Database
@@ -66,7 +66,7 @@ export const signup = (req: Request, res: Response) => {
         });
       }
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.status(500).send({ message: err.message });
     });
 };
@@ -81,14 +81,10 @@ export const signin = (req: Request, res: Response) => {
       if (!user) {
         return res.status(404).send({ message: 'User Not found.' });
       }
-      // jjag skriver in ett löserod,
-      // i databasen finns ett sparat lösenord
-
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
       );
-
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
@@ -117,7 +113,7 @@ export const signin = (req: Request, res: Response) => {
         });
       });
     })
-    .catch(err => {
+    .catch((err: any) => {
       res.status(500).send({ message: err.message });
     });
 };

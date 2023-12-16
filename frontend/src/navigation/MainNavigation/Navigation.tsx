@@ -31,6 +31,13 @@ export default function Navigation() {
     navigate('/login');
   };
 
+  const menuItems = [
+    'My searches',
+    'Pet Alerts',
+    'Community Searches',
+    'Find a Lost Pet',
+  ];
+
   return (
     <>
       <div className="flex justify-end">
@@ -60,15 +67,26 @@ export default function Navigation() {
                   </p>
                   <div className="mb-16">
                     <Menu>
-                      <MenuItem>My searches</MenuItem>
-                      <MenuItem>Pet Alerts</MenuItem>
-                      <MenuItem>Community Searches</MenuItem>
-                      <MenuItem>Find a Lost Pet</MenuItem>
+                      {menuItems.map((item, index) => {
+                        console.log(item.split(' ').join('-').toLowerCase());
+                        return (
+                          <MenuItem
+                            key={index}
+                            as={NavLink}
+                            to={item.split(' ').join('-').toLowerCase()}
+                            onClick={onClose}>
+                            {item}
+                          </MenuItem>
+                        );
+                      })}
                       <Divider />
                       <Divider />
                       <Divider />
                       <Divider />
-                      <MenuItem>Profile</MenuItem>
+
+                      <MenuItem to="/" as={NavLink}>
+                        Profile
+                      </MenuItem>
                     </Menu>
                   </div>
                 </div>

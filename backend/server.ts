@@ -4,10 +4,12 @@ import dbInitFunction from './models/index';
 import dotenv from 'dotenv';
 import { authRoutes } from './routes/auth.routes';
 import { userAuthRoutes } from './routes/user.routes';
+import { mapRoutes } from './routes/proxy.routes';
+// import { lostPetRoutes } from './routes/lostpet.routes';
 const app = express();
 dotenv.config();
 var corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: 'http://localhost:8080',
 };
 
 app.use(cors());
@@ -28,6 +30,7 @@ app.get('/', (req, res) => {
 
 authRoutes(app);
 userAuthRoutes(app);
+mapRoutes(app);
 
 // uncomment if all roles are cleared from db
 // function initial() {
@@ -47,6 +50,7 @@ userAuthRoutes(app);
 //     name: 'admin',
 //   });
 // }
+// initial();
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

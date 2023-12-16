@@ -1,19 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { jwtSecret } from '../config/auth.config';
 import db from '../models/index';
 const User = db.user;
 
-const verifyToken = (req, res, next) => {
-  let token = req.headers['x-access-token'];
+const verifyToken = (req: any, res: Response, next: NextFunction) => {
+  let token = req.headers['authorization'];
 
   if (!token) {
     return res.status(403).send({
       message: 'No token provided!',
     });
   }
+  const bearer = token.split(' ');
+  token = bearer[1];
 
-  jwt.verify(token, jwtSecret.secret, (err, decoded) => {
+  jwt.verify(token, jwtSecret.secret as string, (err: any, decoded: any) => {
     if (err) {
       return res.status(401).send({
         message: 'Unauthorized!',
@@ -24,8 +26,8 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-const isAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
+const isAdmin = (req: any, res: Response, next: NextFunction) => {
+  User.findByPk(req.userId).then((user: any) => {
     user.getRoles().then((roles: string[]) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === 'admin') {
@@ -42,8 +44,8 @@ const isAdmin = (req, res, next) => {
   });
 };
 
-const isModerator = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
+const isModerator = (req: any, res: Response, next: NextFunction) => {
+  User.findByPk(req.userId).then((user: any) => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === 'moderator') {
@@ -59,8 +61,8 @@ const isModerator = (req, res, next) => {
   });
 };
 
-const isModeratorOrAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
+const isModeratorOrAdmin = (req: any, res: Response, next: NextFunction) => {
+  User.findByPk(req.userId).then((user: any) => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === 'moderator') {
