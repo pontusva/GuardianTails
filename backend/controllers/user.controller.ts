@@ -41,32 +41,6 @@ export const getImage = (req: Request, res: Response) => {
   readStream.pipe(res);
 };
 
-// export const uploadImage = (req: Request, res: Response) => {
-//   const imageName = req.file && req.file.filename;
-//   const description = req.body.description;
-
-//   const pet_id = req.body.pet_id; // You need to get the pet_id from somewhere
-
-//   // Create a new instance of the ImageGallery model
-//   PetImageGallery!.create({
-//     pet_id,
-//     image_url: imageName,
-//     description,
-//   });
-
-//   // Save the instance to the database
-//   try {
-//     console.log('Image saved successfully');
-//     res.send({ description, imageName });
-//   } catch (error) {
-//     console.error('Failed to save image:', error);
-//     res.status(500).send({ error: 'Failed to save image' });
-//   }
-
-//   console.log(description, imageName);
-//   res.send({ description, imageName });
-// };
-
 export const uploadImageTest = async (req: Request, res: Response) => {
   const imageName = req.file && req.file.filename;
 

@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { authRoutes } from './routes/auth.routes';
 import { userAuthRoutes } from './routes/user.routes';
 import { mapRoutes } from './routes/proxy.routes';
-import { lostPetRoutes } from './routes/lostpet.routes';
+// import { lostPetRoutes } from './routes/lostpet.routes';
 const app = express();
 dotenv.config();
 var corsOptions = {
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 authRoutes(app);
 userAuthRoutes(app);
 mapRoutes(app);
-lostPetRoutes(app);
+// lostPetRoutes(app);
 
 // uncomment if all roles are cleared from db
 // function initial() {

@@ -37,7 +37,7 @@ export const userAuthRoutes = (app: Express) => {
   );
 
   app.post(
-    '/api/images',
+    '/api/lost-pet',
     cors(),
     authJwt.verifyToken,
     upload.single('image'),

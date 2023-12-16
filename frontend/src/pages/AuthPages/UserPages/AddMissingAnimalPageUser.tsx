@@ -105,7 +105,7 @@ function AddMissingAnimalPageUser() {
     formData.append('owner_id', '1'); // Convert number to string
     formData.append('status', 'lost');
 
-    const response = await fetch('http://localhost:8080/api/images', {
+    const response = await fetch('http://localhost:8080/api/lost-pet', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${Cookies.get('token')}`,
