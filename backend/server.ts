@@ -31,7 +31,6 @@ app.get('/', (req, res) => {
 authRoutes(app);
 userAuthRoutes(app);
 mapRoutes(app);
-// lostPetRoutes(app);
 
 // uncomment if all roles are cleared from db
 // function initial() {

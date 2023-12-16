@@ -96,13 +96,13 @@ function AddMissingAnimalPageUser() {
     formData.append('species', data.species);
     formData.append('breed', data.breed);
     formData.append('color', data.color);
-    formData.append('age', data.age.toString()); // Convert number to string
+    formData.append('age', data.age.toString());
     formData.append(
       'last_seen_location',
       JSON.stringify([{ ...getPreciseMapLatLng }])
     );
     formData.append('description', data.description);
-    formData.append('owner_id', '1'); // Convert number to string
+    formData.append('owner_id', '1');
     formData.append('status', 'lost');
 
     const response = await fetch('http://localhost:8080/api/lost-pet', {
