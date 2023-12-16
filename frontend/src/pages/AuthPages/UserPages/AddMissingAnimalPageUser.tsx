@@ -5,7 +5,7 @@ import MapMissingAnimal from '../../../components/MapComponents/MapMissingAnimal
 import ImageUpload from '../../../components/FileUpload/ImageUpload';
 import { preciseMapLatLng } from '../../../../zustand/MapHooks';
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 type ButtonPropProps = {
   onCloseImage: () => void;
   onOpenMap: () => void;
@@ -82,7 +82,7 @@ function AddMissingAnimalPageUser() {
   } = useForm<IFormInput>({
     mode: 'onChange',
   });
-
+  const [file, setFile] = useState<File | ''>('');
   const getPreciseMapLatLng = preciseMapLatLng(
     state => state.preciseMapLocation
   );
@@ -90,27 +90,28 @@ function AddMissingAnimalPageUser() {
 
   const onSubmit: SubmitHandler<IFormInput> = async data => {
     console.log(data);
-    const response = await fetch(
-      'http://localhost:8080/api/lost-pet-description',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${Cookies.get('token')}`,
-        },
-        body: JSON.stringify({
-          name: data.name,
-          species: data.species,
-          breed: data.breed,
-          color: data.color,
-          age: data.age,
-          last_seen_location: [{ ...getPreciseMapLatLng }],
-          description: data.description,
-          owner_id: 1,
-          status: 'lost',
-        }),
-      }
+    let formData = new FormData();
+    formData.append('image', file);
+    formData.append('name', data.name);
+    formData.append('species', data.species);
+    formData.append('breed', data.breed);
+    formData.append('color', data.color);
+    formData.append('age', data.age.toString()); // Convert number to string
+    formData.append(
+      'last_seen_location',
+      JSON.stringify([{ ...getPreciseMapLatLng }])
     );
+    formData.append('description', data.description);
+    formData.append('owner_id', '1'); // Convert number to string
+    formData.append('status', 'lost');
+
+    const response = await fetch('http://localhost:8080/api/images', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${Cookies.get('token')}`,
+      },
+      body: formData,
+    });
     const result = await response.json();
     console.log(result);
   };
@@ -135,6 +136,8 @@ function AddMissingAnimalPageUser() {
         NextActionButtonOpenMapCloseFileUpload={
           <ButtonProp onOpenMap={onOpenMap} onCloseImage={onCloseImage} />
         }
+        setFile={setFile}
+        file={file}
         isOpenImage={isOpenImage}
         onOpenImage={onOpenImage}
         onCloseImage={onCloseImage}

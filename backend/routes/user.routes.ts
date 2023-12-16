@@ -41,6 +41,6 @@ export const userAuthRoutes = (app: Express) => {
     cors(),
     authJwt.verifyToken,
     upload.single('image'),
-    controller.uploadImage
+    controller.uploadImageTest
   );
 };
