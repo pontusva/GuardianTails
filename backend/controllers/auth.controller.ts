@@ -105,7 +105,7 @@ export const signin = (req: Request, res: Response) => {
           authorities.push('ROLE_' + roles[i].name.toUpperCase());
         }
         res.status(200).send({
-          id: user.id,
+          id: user.user_id,
           username: user.username,
           email: user.email,
           roles: authorities,
