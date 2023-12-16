@@ -43,11 +43,11 @@ export const getImage = (req: Request, res: Response) => {
 };
 
 export const getAllLostPets = async (req: Request, res: Response) => {
-  const { user_id } = req.query;
+  const { user_id } = req.body;
   const pets = await LostPet!.findAll({
     where: {
       status: 'lost',
-      owner_id: 1,
+      owner_id: user_id,
     },
     include: [
       {

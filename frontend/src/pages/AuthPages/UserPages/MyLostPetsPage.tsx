@@ -30,7 +30,9 @@ export default function MyLostPetsPage() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${Cookies.get('token')}`,
         },
-        body: JSON.stringify({ user_id: 1 }),
+        body: JSON.stringify({
+          user_id: Cookies.get('user_id'),
+        }),
       }
     );
     const data = await response.json();
