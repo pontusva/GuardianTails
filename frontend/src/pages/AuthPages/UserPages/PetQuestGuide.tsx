@@ -28,6 +28,7 @@ export default function PetQuestGuide() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<IFormInput>({
     mode: 'onChange',
@@ -35,9 +36,11 @@ export default function PetQuestGuide() {
 
   const onSubmit = (data: IFormInput) => {
     setChat(prev => [{ message: data.message }, ...prev]);
+    reset();
   };
 
   useEffect(() => {
+    // console.log(chat);
     console.log(chat);
   }, [chat]);
 
@@ -52,7 +55,7 @@ export default function PetQuestGuide() {
                 {[...chat].reverse().map((message, index) => {
                   return (
                     <div>
-                      <p className="text-sm">{message.message}</p>
+                      <p className="text-sm">You: {message.message}</p>
                     </div>
                   );
                 })}
