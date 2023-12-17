@@ -11,7 +11,7 @@ export const aiRoutes = (app: Express) => {
     next();
   });
 
-  app.get('/api/oai', [authJwt.verifyToken], aiController.oai);
+  app.post('/api/oai/chat', [authJwt.verifyToken], aiController.oai);
 
   // call this route once to create a thread
   app.post('/api/oai/thread', [authJwt.verifyToken], aiController.createThread);

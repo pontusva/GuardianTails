@@ -6,6 +6,7 @@ interface UserInstance extends Model {
   email: string;
   password: string;
   thread_id: string;
+  assistant_id: string;
 }
 
 export const userModelFunc = (sequelize: Sequelize) => {
@@ -26,6 +27,9 @@ export const userModelFunc = (sequelize: Sequelize) => {
       type: DataTypes.STRING,
     },
     thread_id: {
+      type: DataTypes.STRING,
+    },
+    assistant_id: {
       type: DataTypes.STRING,
     },
   });
