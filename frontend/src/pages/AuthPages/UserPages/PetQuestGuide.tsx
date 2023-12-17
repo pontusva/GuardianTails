@@ -1,7 +1,5 @@
 import {
   Card,
-  CardHeader,
-  FormLabel,
   FormControl,
   FormErrorMessage,
   CardBody,
@@ -12,9 +10,9 @@ import {
   ButtonGroup,
   Heading,
   Button,
-  Textarea,
   Input,
 } from '@chakra-ui/react';
+import DefaultModal from '../../../components/Modals/DefaultModal';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Cookies from 'js-cookie';
@@ -24,7 +22,7 @@ interface IFormInput {
 
 export default function PetQuestGuide() {
   const [chat, setChat] = useState<IFormInput[]>([]);
-
+  const [thread, setThread] = useState<boolean>(true);
   const {
     handleSubmit,
     register,
@@ -35,12 +33,33 @@ export default function PetQuestGuide() {
   });
 
   const isThreadEmpty = async () => {
-    const response = await fetch('http://localhost:3000/user-ai-thread', {
-      method: 'GET',
+    const response = await fetch(
+      'http://localhost:8080/api/oai/is-user-thread',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + Cookies.get('token'),
+        },
+        body: JSON.stringify({
+          user_id: Cookies.get('user_id'),
+        }),
+      }
+    );
+    const result = await response.json();
+    setThread(result.thread);
+  };
+
+  const createThread = async () => {
+    const response = await fetch('http://localhost:8080/api/oai/thread', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + Cookies.get('token'),
       },
+      body: JSON.stringify({
+        user_id: Cookies.get('user_id'),
+      }),
     });
     const result = await response.json();
     console.log(result);
@@ -52,7 +71,7 @@ export default function PetQuestGuide() {
   };
 
   useEffect(() => {
-    // isThreadEmpty();
+    isThreadEmpty();
   }, []);
 
   useEffect(() => {
@@ -66,17 +85,17 @@ export default function PetQuestGuide() {
         <CardBody>
           <Stack mt="6" spacing="3">
             <Heading size="md">PetQuest Guide</Heading>
-            <Text>
-              <div className="relative h-80 overflow-scroll">
-                {[...chat].reverse().map((message, index) => {
+            <div className="relative h-80 overflow-scroll">
+              <Text>
+                {[...chat].reverse().map(message => {
                   return (
                     <div>
                       <p className="text-sm">You: {message.message}</p>
                     </div>
                   );
                 })}
-              </div>
-            </Text>
+              </Text>
+            </div>
           </Stack>
         </CardBody>
         <Divider />
@@ -97,7 +116,11 @@ export default function PetQuestGuide() {
           </FormControl>
           <CardFooter>
             <ButtonGroup spacing="2">
-              <Button type="submit" variant="solid" colorScheme="blue">
+              <Button
+                isLoading={isSubmitting}
+                type="submit"
+                variant="solid"
+                colorScheme="blue">
                 Send
               </Button>
               <Button variant="ghost" colorScheme="blue">
@@ -107,6 +130,16 @@ export default function PetQuestGuide() {
           </CardFooter>
         </form>
       </Card>
+      {/* {!thread && ( */}
+      <DefaultModal
+        title="PetQuest Chat"
+        func={createThread}
+        defaultOpen={thread}
+        buttonTextLeave="Cancel"
+        buttonTextContinue="Yes, continue..."
+        body="Looks like this is your first time accessing the chat. Would you like to start? "
+      />
+      {/* )} */}
     </div>
   );
 }
