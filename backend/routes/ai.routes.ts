@@ -14,7 +14,7 @@ export const aiRoutes = (app: Express) => {
   app.get('/api/oai', [authJwt.verifyToken], aiController.oai);
 
   // call this route once to create a thread
-  app.get('/api/oai/thread', [authJwt.verifyToken], aiController.createThread);
+  app.post('/api/oai/thread', [authJwt.verifyToken], aiController.createThread);
 
   // call this route to check if a user has a thread
   app.post(
