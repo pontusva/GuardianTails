@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-
+import { main } from '../oai/init';
 interface LostPet {
   pet_id?: number;
 }
 
 import dbInitFunction from '../models';
-import path from 'path';
 import fs from 'fs';
 const db = dbInitFunction();
 

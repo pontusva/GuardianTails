@@ -17,6 +17,9 @@ export const userModelFunc = (sequelize: Sequelize) => {
     password: {
       type: DataTypes.STRING,
     },
+    thread_id: {
+      type: DataTypes.STRING,
+    },
   });
 
   return User;

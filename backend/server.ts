@@ -4,7 +4,7 @@ import dbInitFunction from './models/index';
 import dotenv from 'dotenv';
 import { authRoutes } from './routes/auth.routes';
 import { userAuthRoutes } from './routes/user.routes';
-import { mapRoutes } from './routes/proxy.routes';
+import { proxyRoutes } from './routes/proxy.routes';
 
 const app = express();
 dotenv.config();
@@ -17,11 +17,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = dbInitFunction();
-db && db.sequelize.sync();
+db && db.sequelize.sync({ force: false });
 
 authRoutes(app);
 userAuthRoutes(app);
-mapRoutes(app);
+proxyRoutes(app);
 
 /*
   *** IMPORTANT ***
