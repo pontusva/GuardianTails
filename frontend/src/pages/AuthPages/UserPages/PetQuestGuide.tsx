@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
+import Cookies from 'js-cookie';
 interface IFormInput {
   message: string;
 }
@@ -34,10 +34,26 @@ export default function PetQuestGuide() {
     mode: 'onChange',
   });
 
+  const isThreadEmpty = async () => {
+    const response = await fetch('http://localhost:3000/user-ai-thread', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + Cookies.get('token'),
+      },
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+
   const onSubmit = (data: IFormInput) => {
     setChat(prev => [{ message: data.message }, ...prev]);
     reset();
   };
+
+  useEffect(() => {
+    // isThreadEmpty();
+  }, []);
 
   useEffect(() => {
     // console.log(chat);
