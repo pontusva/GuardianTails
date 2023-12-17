@@ -13,8 +13,4 @@ export const proxyRoutes = (app: Express) => {
   });
 
   app.post('/api/auth/map', [authJwt.verifyToken], controller.map);
-  app.get('/api/oai', [authJwt.verifyToken], aiController.oai);
-
-  // call this route once to create a thread
-  app.get('/api/oai/thread', [authJwt.verifyToken], aiController.createThread);
 };

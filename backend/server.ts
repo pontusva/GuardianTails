@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { authRoutes } from './routes/auth.routes';
 import { userAuthRoutes } from './routes/user.routes';
 import { proxyRoutes } from './routes/proxy.routes';
-
+import { aiRoutes } from './routes/ai.routes';
 const app = express();
 dotenv.config();
 var corsOptions = {
@@ -21,6 +21,7 @@ db && db.sequelize.sync({ force: false });
 
 authRoutes(app);
 userAuthRoutes(app);
+aiRoutes(app);
 proxyRoutes(app);
 
 /*

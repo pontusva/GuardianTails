@@ -1,7 +1,15 @@
-import { Sequelize, DataTypes } from 'sequelize';
+import { Sequelize, DataTypes, Model } from 'sequelize';
+
+interface UserInstance extends Model {
+  user_id: number;
+  username: string;
+  email: string;
+  password: string;
+  thread_id: string;
+}
 
 export const userModelFunc = (sequelize: Sequelize) => {
-  const User = sequelize.define('users', {
+  const User = sequelize.define<UserInstance>('users', {
     user_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
