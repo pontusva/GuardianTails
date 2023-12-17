@@ -11,7 +11,6 @@ export const oai = async (req: Request, res: Response) => {
   const thread_id = user!.thread_id;
   const assistant_id = user!.assistant_id;
   const messages = await main(thread_id, assistant_id);
-  console.log(messages);
   res.send(messages);
 };
 
