@@ -11,9 +11,10 @@ export const aiRoutes = (app: Express) => {
     next();
   });
 
+  // call this route to send a message to the assistant
   app.post('/api/oai/chat', [authJwt.verifyToken], aiController.oai);
 
-  // call this route once to create a thread
+  // call this route once to create a thread and assistant
   app.post('/api/oai/thread', [authJwt.verifyToken], aiController.createThread);
 
   // call this route to check if a user has a thread
