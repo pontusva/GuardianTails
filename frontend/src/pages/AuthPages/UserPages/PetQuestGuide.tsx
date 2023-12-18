@@ -119,7 +119,7 @@ export default function PetQuestGuide() {
       <Card maxW="sm">
         <CardBody>
           <Stack mt="6" spacing="3">
-            <Heading size="md">PetQuest Guide</Heading>
+            <Heading size="md">PetBuddy</Heading>
             <div className="relative h-80 overflow-scroll">
               {[...chat].reverse().map((message, idx) => {
                 return (

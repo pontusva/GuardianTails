@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         element: <MyLostPetsPage />,
       },
       {
-        path: 'petquest-guide',
+        path: 'petbuddy-guide',
         element: <PetQuestGuide />,
       },
     ],
