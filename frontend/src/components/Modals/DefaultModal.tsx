@@ -48,7 +48,12 @@ export default function DefaultModal({
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               {buttonTextLeave}
             </Button>
-            <Button onClick={func} variant="ghost">
+            <Button
+              onClick={() => {
+                func && func();
+                onClose();
+              }}
+              variant="ghost">
               {buttonTextContinue}
             </Button>
           </ModalFooter>

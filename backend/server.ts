@@ -18,7 +18,8 @@ app.use(cors());
 app.use(express.json());
 
 const db = dbInitFunction();
-db && db.sequelize.sync({ force: false });
+
+db && db.sequelize.sync({ force: false }); // force: true will drop the table if it already exists
 
 authRoutes(app);
 userAuthRoutes(app);

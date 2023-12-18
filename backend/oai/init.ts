@@ -19,21 +19,27 @@ export const thread = async () => {
   return { assistant, thread };
 };
 
-export async function main(thread_id: string, assistant_id: string) {
+export async function main(
+  thread_id: string,
+  assistant_id: string,
+  chatMsg: string
+) {
   console.log(thread_id, assistant_id);
   const userAssistant = await openai.beta.assistants.retrieve(assistant_id);
   const message = await openai.beta.threads.messages.create(thread_id, {
     role: 'user',
-    content: 'Hey, I lost my dog. Can you help me find it?',
+    content: chatMsg,
   });
-
-  const threadMessages = await openai.beta.threads.messages.list(thread_id);
 
   const run = await openai.beta.threads.runs.create(thread_id, {
     assistant_id: userAssistant.id,
   });
 
-  const runState = await openai.beta.threads.runs.retrieve(thread_id, run.id);
+  let runState;
+
+  do {
+    runState = await openai.beta.threads.runs.retrieve(thread_id, run.id);
+  } while (runState.status !== 'completed');
 
   const messages = await openai.beta.threads.messages.list(thread_id);
   console.log(messages);
