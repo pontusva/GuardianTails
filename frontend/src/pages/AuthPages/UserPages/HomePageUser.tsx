@@ -1,7 +1,7 @@
 export default function HomePageUser() {
   return (
     <div>
-      <p>HomePageUser</p>
+      <p className="text-center text-4xl mt-10">Välkommen 😊</p>
     </div>
   );
 }
