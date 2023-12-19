@@ -10,6 +10,7 @@ import HomePageUser from './pages/AuthPages/UserPages/HomePageUser.tsx';
 import AddMissingAnimalPageUser from './pages/AuthPages/UserPages/AddMissingAnimalPageUser.tsx';
 import MyLostPetsPage from './pages/AuthPages/UserPages/MyLostPetsPage.tsx';
 import PetQuestGuide from './pages/AuthPages/UserPages/PetQuestGuide.tsx';
+import SpecificPetPage from './pages/AuthPages/UserPages/SpecificPetPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: 'petbuddy',
         element: <PetQuestGuide />,
+      },
+      {
+        path: 'pet/:pet_id',
+        element: <SpecificPetPage />,
       },
     ],
   },

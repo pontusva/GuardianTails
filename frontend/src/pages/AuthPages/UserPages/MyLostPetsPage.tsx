@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 interface LostPet {
   id: number;
+  pet_id: number;
   name: string;
   type: string;
   breed: string;
@@ -20,6 +22,8 @@ interface ImageGallery {
 
 export default function MyLostPetsPage() {
   const [petInfo, setPetInfo] = useState<ImageGallery[]>([]);
+
+  const navigation = useNavigate();
 
   const getUsersLostPets = async () => {
     const response = await fetch(
@@ -64,7 +68,6 @@ export default function MyLostPetsPage() {
   }, []);
 
   useEffect(() => {
-    console.log(petInfo);
     return () => {
       petInfo.forEach(petImage => URL.revokeObjectURL(petImage.image_url));
     };
@@ -74,7 +77,11 @@ export default function MyLostPetsPage() {
     <>
       {petInfo.map((petImage, index) => (
         <div className="flex flex-col items-center" key={index}>
-          <h1 className="mt-8 text-2xl">{petImage.pet.name}</h1>
+          <h1
+            onClick={() => navigation(`/pet/${petImage.pet.pet_id}`)}
+            className="mt-8 text-2xl">
+            {petImage.pet.name}
+          </h1>
           <img className="object-fit w-96" src={petImage.image_url} alt="Pet" />
         </div>
       ))}
