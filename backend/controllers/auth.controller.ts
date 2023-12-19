@@ -33,7 +33,7 @@ const userAndRoleGuard = (function () {
 
 const userAndRole = userAndRoleGuard;
 
-const { User, Role }: any = userAndRole;
+const { User, Role }: any = userAndRole || {};
 
 export const signup = (req: Request, res: Response) => {
   // Save User to Database
