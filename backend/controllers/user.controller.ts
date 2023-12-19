@@ -64,7 +64,8 @@ export const getAllLostPets = async (req: Request, res: Response) => {
 };
 
 export const getSpecificLostPet = async (req: Request, res: Response) => {
-  const { pet_id } = req.body;
+  const { pet_id } = req.params;
+
   const pet = await LostPet!.findOne({
     where: {
       pet_id,
