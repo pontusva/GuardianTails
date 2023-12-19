@@ -1,7 +1,13 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { main } from '../oai/init';
+import { Model } from 'sequelize';
 interface LostPet {
   pet_id?: number;
+  owner_id?: number;
+}
+interface ILostPet extends Model {
+  owner_id: number;
+  // Add other properties of LostPet as needed
 }
 
 import dbInitFunction from '../models';
@@ -32,6 +38,37 @@ export const moderatorBoard = (req: Request, res: Response) => {
 export const map = (req: Request, res: Response) => {
   const mapToken = process.env.MAP_TOKEN;
   res.status(200).json(mapToken);
+};
+
+export const authorizeImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const imageName = req.params.pet_id;
+
+  // Fetch the image from the database
+  const image = await PetImageGallery!.findByPk(imageName);
+
+  // Check if the image exists
+  if (!image) {
+    return res.status(404).json({ message: 'Image not found.' });
+  }
+
+  // Fetch the pet associated with the image
+  const pet = await LostPet!.findOne({
+    where: { pet_id: imageName },
+  });
+
+  // Check if the pet exists and if the user is authorized to view it
+  if (!pet || pet.owner_id !== Number(req.body.user_id)) {
+    return res
+      .status(403)
+      .json({ message: 'You are not authorized to view this image.' });
+  }
+
+  // If the user is authorized, proceed to the next middleware
+  next();
 };
 
 export const getImage = (req: Request, res: Response) => {

@@ -102,7 +102,7 @@ function AddMissingAnimalPageUser() {
       JSON.stringify([{ ...getPreciseMapLatLng }])
     );
     formData.append('description', data.description);
-    formData.append('owner_id', '1');
+    formData.append('owner_id', Cookies.get('user_id')!);
     formData.append('status', 'lost');
 
     const response = await fetch('http://localhost:8080/api/lost-pet', {

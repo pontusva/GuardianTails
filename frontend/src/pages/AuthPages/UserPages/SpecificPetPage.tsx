@@ -27,11 +27,12 @@ export default function SpecificPetPage() {
     const response = await fetch(
       `http://localhost:8080/api/specific-lost-pet/${id}`,
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${Cookies.get('token')}`,
         },
+        body: JSON.stringify({ user_id: Cookies.get('user_id') }),
       }
     );
     const data = await response.json();
