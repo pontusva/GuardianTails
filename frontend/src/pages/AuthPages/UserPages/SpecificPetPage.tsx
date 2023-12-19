@@ -2,10 +2,25 @@ import { useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
-interface LostPet {}
+interface LostPet {
+  data: {
+    id: number;
+    pet_id: number;
+    name: string;
+    type: string;
+    breed: string;
+    description: string;
+    last_seen_location: string;
+    color: string;
+    userId: number;
+    updatedAt: string;
+    status: string;
+  };
+  image_url: string;
+}
 
 export default function SpecificPetPage() {
-  const [pet, setPet] = useState<LostPet[]>([]);
+  const [pet, setPet] = useState<LostPet | {}>({});
   const location = useLocation();
   const id = location.pathname.split('/').pop();
   const getPet = async () => {
@@ -26,29 +41,52 @@ export default function SpecificPetPage() {
 
   useEffect(() => {
     getPet().then(async data => {
-      // const fetchPromises = data.map((pet: LostPet) =>
-      //   fetch(
-      //     `http://localhost:8080/images/${pet.ImageGalleries[0].image_url}`,
-      //     {
-      //       method: 'GET',
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //         Authorization: `Bearer ${Cookies.get('token')}`,
-      //       },
-      //     }
-      //   )
-      //     .then(response => response.blob())
-      //     .then(blob => ({ pet, image_url: URL.createObjectURL(blob) }))
-      // );
-      // const petImages = await Promise.all(fetchPromises);
-      // setPet(petImages);
+      console.log(data.ImageGalleries[0].image_url);
+      const response = fetch(
+        `http://localhost:8080/images/${data.ImageGalleries[0].image_url}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('token')}`,
+          },
+        }
+      )
+        .then(response => response.blob())
+        .then(blob => ({ data, image_url: URL.createObjectURL(blob) }));
+      const singlePet = await response;
+      setPet(singlePet);
     });
   }, []);
 
   console.log(pet);
   return (
     <div>
-      <h1>SpecificPetPage</h1>
+      {pet && 'data' in pet && (
+        <div className="flex flex-col items-center">
+          <div>
+            <div className="flex justify-center ">
+              <div
+                className="w-10 h-10 rounded-full self-start"
+                style={{
+                  backgroundColor: `${pet.data.color}`,
+                }}
+              />
+              <h1 className="text-4xl">{pet.data.name}</h1>
+            </div>
+            <img src={pet.image_url} alt="" />
+            <div>
+              <p>{pet.data.status}</p>
+              <p>{pet.data.description}</p>
+              <p>{pet.data.breed}</p>
+
+              <p>{pet.data.last_seen_location}</p>
+              <p>{pet.data.type}</p>
+              <p>{pet.data.updatedAt}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
