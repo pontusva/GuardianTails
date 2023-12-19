@@ -56,7 +56,7 @@ export const authorizeImage = async (
   }
 
   // Fetch the pet associated with the image
-  const pet = await LostPet!.findOne({
+  const pet: any = await LostPet!.findOne({
     where: { pet_id: imageName },
   });
 
