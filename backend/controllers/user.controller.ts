@@ -63,6 +63,27 @@ export const getAllLostPets = async (req: Request, res: Response) => {
   res.send(pets);
 };
 
+export const getSpecificLostPet = async (req: Request, res: Response) => {
+  const { pet_id } = req.body;
+  const pet = await LostPet!.findOne({
+    where: {
+      pet_id,
+    },
+    include: [
+      {
+        model: PetImageGallery!,
+        attributes: ['image_url'],
+      },
+      {
+        model: User, // Include the User model
+        attributes: ['username', 'email'], // Specify the attributes you want to include from the User model
+      },
+    ],
+  });
+
+  res.send(pet);
+};
+
 export const uploadLostPet = async (req: Request, res: Response) => {
   const imageName = req.file && req.file.filename;
 

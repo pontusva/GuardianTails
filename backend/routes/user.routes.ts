@@ -49,4 +49,10 @@ export const userAuthRoutes = (app: Express) => {
     [authJwt.verifyToken],
     controller.getAllLostPets
   );
+
+  app.post(
+    'api/specific-lost-pet',
+    [authJwt.verifyToken],
+    controller.getSpecificLostPet
+  );
 };
