@@ -6,6 +6,7 @@ import { authRoutes } from './routes/auth.routes';
 import { userAuthRoutes } from './routes/user.routes';
 import { proxyRoutes } from './routes/proxy.routes';
 import { aiRoutes } from './routes/ai.routes';
+// import { initial } from './devScripts/initializeRoles';
 
 const app = express();
 dotenv.config();

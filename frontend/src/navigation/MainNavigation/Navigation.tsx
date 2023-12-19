@@ -35,7 +35,7 @@ export default function Navigation() {
     'My Lost Pets',
     'Pet Alerts',
     'Community Searches',
-    'PetBuddy Guide',
+    'PetBuddy',
     'Find a Lost Pet',
   ];
 
