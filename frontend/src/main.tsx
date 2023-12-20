@@ -11,6 +11,7 @@ import AddMissingAnimalPageUser from './pages/AuthPages/UserPages/AddMissingAnim
 import MyLostPetsPage from './pages/AuthPages/UserPages/MyLostPetsPage.tsx';
 import PetQuestGuide from './pages/AuthPages/UserPages/PetQuestGuide.tsx';
 import SpecificPetPage from './pages/AuthPages/UserPages/SpecificPetPage.tsx';
+import CommunitySearches from './pages/AuthPages/UserPages/CommunitySearches.tsx';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: 'pet/:pet_id',
         element: <SpecificPetPage />,
+      },
+      {
+        path: 'community-searches',
+        element: <CommunitySearches />,
       },
     ],
   },
