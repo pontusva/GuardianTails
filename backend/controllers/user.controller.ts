@@ -85,6 +85,7 @@ export const getAllLostPets = async (req: Request, res: Response) => {
       status: 'lost',
       owner_id: user_id,
     },
+    order: [['updatedAt', 'DESC']],
     include: [
       {
         model: PetImageGallery!,
