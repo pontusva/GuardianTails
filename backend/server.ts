@@ -6,6 +6,7 @@ import { authRoutes } from './routes/auth.routes';
 import { userAuthRoutes } from './routes/user.routes';
 import { proxyRoutes } from './routes/proxy.routes';
 import { aiRoutes } from './routes/ai.routes';
+import path from 'path';
 // import { initial } from './devScripts/initializeRoles';
 
 const app = express();
@@ -21,7 +22,7 @@ app.use(express.json());
 const db = dbInitFunction();
 
 db && db.sequelize.sync({ force: false }); // force: true will drop the table if it already exists
-
+app.use('/images', express.static(path.join(__dirname, 'images')));
 authRoutes(app);
 userAuthRoutes(app);
 aiRoutes(app);
