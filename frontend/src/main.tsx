@@ -13,6 +13,7 @@ import PetQuestGuide from './pages/AuthPages/UserPages/PetQuestGuide.tsx';
 import SpecificPetPage from './pages/AuthPages/UserPages/SpecificPetPage.tsx';
 import CommunitySearchesPage from './pages/AuthPages/UserPages/CommunitySearchesPage.tsx';
 import PetAlerts from './pages/AuthPages/UserPages/PetAlerts.tsx';
+import PetAlertsSpecific from './pages/AuthPages/UserPages/PetAlertsSpecific.tsx';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: 'pet-alerts',
         element: <PetAlerts />,
+      },
+      {
+        path: 'pet-alerts/:pet_id',
+        element: <PetAlertsSpecific />,
       },
     ],
   },
