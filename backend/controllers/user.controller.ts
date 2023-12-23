@@ -101,13 +101,15 @@ export const getAllLostPets = async (req: Request, res: Response) => {
   res.send(pets);
 };
 
-export const getSpecificLostPet = async (req: Request, res: Response) => {
-  const { pet_id } = req.params;
-
-  const pet = await LostPet!.findOne({
+export const getAllLostPetsForAllUsers = async (
+  req: Request,
+  res: Response
+) => {
+  const pets = await LostPet!.findAll({
     where: {
-      pet_id,
+      status: 'lost',
     },
+    order: [['updatedAt', 'DESC']],
     include: [
       {
         model: PetImageGallery!,
@@ -120,7 +122,36 @@ export const getSpecificLostPet = async (req: Request, res: Response) => {
     ],
   });
 
-  res.send(pet);
+  res.send(pets);
+};
+
+export const getSpecificLostPet = async (req: Request, res: Response) => {
+  const { pet_id } = req.params;
+
+  try {
+    const pet = await LostPet!.findOne({
+      where: {
+        pet_id,
+      },
+      include: [
+        {
+          model: PetImageGallery!,
+          attributes: ['image_url'],
+        },
+        {
+          model: User, // Include the User model
+          attributes: ['username', 'email'], // Specify the attributes you want to include from the User model
+        },
+      ],
+    });
+
+    res.send(pet);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .send({ message: 'An error occurred while retrieving the pet.' });
+  }
 };
 
 export const uploadLostPet = async (req: Request, res: Response) => {

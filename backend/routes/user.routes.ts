@@ -56,4 +56,10 @@ export const userAuthRoutes = (app: Express) => {
     controller.authorizeImage,
     controller.getSpecificLostPet
   );
+
+  app.post(
+    '/api/all-lost-pets',
+    [authJwt.verifyToken],
+    controller.getAllLostPetsForAllUsers
+  );
 };
