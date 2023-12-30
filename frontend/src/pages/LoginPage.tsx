@@ -42,8 +42,8 @@ export default function Login() {
     const token = result.accessToken;
     Cookies.set('token', token, { expires: 7, secure: false });
     Cookies.set('user_id', result.id, { expires: 7, secure: false });
+    Cookies.set('username', result.username, { expires: 7, secure: false });
 
-    console.log(result);
     navigate('/');
   };
 

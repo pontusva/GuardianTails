@@ -48,13 +48,16 @@ export default function Navigation() {
           </Button>
           <Drawer
             isOpen={isOpen}
+            size="sm"
             placement="right"
             onClose={onClose}
             finalFocusRef={btnRef}>
             <DrawerOverlay />
             <DrawerContent>
               <DrawerCloseButton />
-              <DrawerHeader>Hello, User</DrawerHeader>
+              <DrawerHeader>
+                Logged in as: {Cookies.get('username')}!
+              </DrawerHeader>
               <div className="flex justify-center">
                 <Button onClick={handleLogout} className="mb-1 w-28">
                   Log out
